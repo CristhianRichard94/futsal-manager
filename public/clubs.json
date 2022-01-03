@@ -1,0 +1,97 @@
+[
+  {
+    "id": "1bcc9d0a-6a18-4182-a82f-54cab310681b",
+    "name": "Olimpia",
+    "location": "https://www.google.com.ar/maps/place/Florian%C3%B3polis,+State+of+Santa+Catarina,+Brazil/@-27.5707057,-48.7504587,10z/data=!3m1!4b1!4m5!3m4!1s0x9527394eb2c632d7:0x81bc550b6a04c746!8m2!3d-27.5948698!4d-48.5569954",
+    "prices": [
+      { "hourFrom": 9, "amount": 200 },
+      { "hourFrom": 20, "amount": 250 }
+    ],
+    "openHour": 9,
+    "phone": 123456789,
+    "closingHour": 24,
+    "profileImage": "https://picsum.photos/200",
+    "images": [
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200"
+    ]
+  },
+  {
+    "id": "c67a6c06-0167-4e91-b1cd-9e312b884169",
+    "name": "Frater",
+    "location": "https://www.google.com.ar/maps/place/Florian%C3%B3polis,+State+of+Santa+Catarina,+Brazil/@-27.5707057,-48.7504587,10z/data=!3m1!4b1!4m5!3m4!1s0x9527394eb2c632d7:0x81bc550b6a04c746!8m2!3d-27.5948698!4d-48.5569954",
+    "prices": [
+      { "hourFrom": 9, "amount": 200 },
+      { "hourFrom": 20, "amount": 250 }
+    ],
+    "openHour": 9,
+    "phone": 123456789,
+    "closingHour": 24,
+    "profileImage": "https://picsum.photos/200",
+    "images": [
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200"
+    ]
+  },
+  {
+    "id": "1a5696e2-6f4a-4d74-9e36-73093fa09ee5",
+    "name": "Gallo Rojo",
+    "location": "https://www.google.com.ar/maps/place/Florian%C3%B3polis,+State+of+Santa+Catarina,+Brazil/@-27.5707057,-48.7504587,10z/data=!3m1!4b1!4m5!3m4!1s0x9527394eb2c632d7:0x81bc550b6a04c746!8m2!3d-27.5948698!4d-48.5569954",
+    "prices": [
+      { "hourFrom": 9, "amount": 200 },
+      { "hourFrom": 20, "amount": 250 }
+    ],
+    "openHour": 9,
+    "phone": 123456789,
+    "closingHour": 24,
+    "profileImage": "https://picsum.photos/200",
+    "images": [
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200"
+    ]
+  },
+  {
+    "id": "3ed0fd59-d949-4101-9666-083d26563b71",
+    "name": "Metegol",
+    "location": "https://www.google.com.ar/maps/place/Florian%C3%B3polis,+State+of+Santa+Catarina,+Brazil/@-27.5707057,-48.7504587,10z/data=!3m1!4b1!4m5!3m4!1s0x9527394eb2c632d7:0x81bc550b6a04c746!8m2!3d-27.5948698!4d-48.5569954",
+    "prices": [
+      { "hourFrom": 9, "amount": 200 },
+      { "hourFrom": 20, "amount": 250 }
+    ],
+    "openHour": 9,
+    "phone": 123456789,
+    "closingHour": 24,
+    "profileImage": "https://picsum.photos/200",
+    "images": [
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200"
+    ]
+  },
+  {
+    "id": "792ba47b-b766-40fa-82e0-ec6d8a179918",
+    "name": "Balon de oro",
+    "location": "https://www.google.com.ar/maps/place/Florian%C3%B3polis,+State+of+Santa+Catarina,+Brazil/@-27.5707057,-48.7504587,10z/data=!3m1!4b1!4m5!3m4!1s0x9527394eb2c632d7:0x81bc550b6a04c746!8m2!3d-27.5948698!4d-48.5569954",
+    "prices": [
+      { "hourFrom": 9, "amount": 200 },
+      { "hourFrom": 20, "amount": 250 }
+    ],
+    "openHour": 9,
+    "phone": 123456789,
+    "closingHour": 24,
+    "profileImage": "https://picsum.photos/200",
+    "images": [
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200",
+      "https://picsum.photos/200"
+    ]
+  }
+]
