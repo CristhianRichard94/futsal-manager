@@ -1,0 +1,66 @@
+{
+  "appName": "Fulbo 5 Manager",
+  "navigation": {
+    "stadiums": "Canchas",
+    "users": "Usuarios",
+    "teams": "Equipos",
+    "reservations": "Turnos"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados."
+  },
+  "stadiums": {
+    "title": "Gestionar Canchas",
+    "name": "Nombre del Estadio",
+    "location": "Ubicación",
+    "addStadium": "Añadir Estadio",
+    "actions": "Acciones",
+    "delete": "Eliminar"
+  },
+  "users": {
+    "title": "Gestionar Usuarios",
+    "name": "Nombre de Usuario",
+    "email": "Correo Electrónico",
+    "addUser": "Añadir Usuario",
+    "actions": "Acciones",
+    "delete": "Eliminar"
+  },
+  "teams": {
+    "title": "Gestionar Equipos",
+    "name": "Nombre del Equipo",
+    "coach": "Entrenador",
+    "addTeam": "Añadir Equipo",
+    "actions": "Acciones",
+    "delete": "Eliminar"
+  },
+  "reservations": {
+    "title": "Hacer una Reserva",
+    "selectStadium": "Seleccionar Estadio",
+    "selectTeam": "Seleccionar Equipo",
+    "makeReservation": "Hacer Reserva",
+    "success": "Reserva Exitosa",
+    "successMessage": "Has reservado {stadium} para {team} el {date} a las {time}."
+  },
+  "dashboard": {
+    "stadiums": {
+      "title": "Canchas",
+      "description": "Gestiona tus Canchas de fútsal",
+      "link": "Ir a Canchas"
+    },
+    "users": {
+      "title": "Usuarios",
+      "description": "Gestiona los usuarios del sistema",
+      "link": "Ir a Usuarios"
+    },
+    "teams": {
+      "title": "Equipos",
+      "description": "Gestiona los equipos de fútsal",
+      "link": "Ir a Equipos"
+    },
+    "reservations": {
+      "title": "Turnos",
+      "description": "Haz Turnos de Canchas",
+      "link": "Ir a Turnos"
+    }
+  }
+}
