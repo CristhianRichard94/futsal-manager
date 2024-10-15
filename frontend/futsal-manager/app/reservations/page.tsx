@@ -44,62 +44,67 @@ export default function ReservationsPage() {
 
   return (
     <Card>
-      <ToastProvider></ToastProvider>
       <CardHeader>
         <CardTitle>{content.reservations?.title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleReservation} className="space-y-4">
-          <Select
-            value={reservation.stadium}
-            onValueChange={(value) =>
-              setReservation({ ...reservation, stadium: value })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder={content.reservations?.selectStadium} />
-            </SelectTrigger>
-            <SelectContent>
-              {stadiums.map((stadium) => (
-                <SelectItem key={stadium} value={stadium}>
-                  {stadium}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Input
-            type="date"
-            value={reservation.date}
-            onChange={(e) =>
-              setReservation({ ...reservation, date: e.target.value })
-            }
-          />
-          <Input
-            type="time"
-            value={reservation.time}
-            onChange={(e) =>
-              setReservation({ ...reservation, time: e.target.value })
-            }
-          />
-          <Select
-            value={reservation.team}
-            onValueChange={(value) =>
-              setReservation({ ...reservation, team: value })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder={content.reservations?.selectTeam} />
-            </SelectTrigger>
-            <SelectContent>
-              {teams.map((team) => (
-                <SelectItem key={team} value={team}>
-                  {team}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Button type="submit">{content.reservations?.makeReservation}</Button>
-        </form>
+        <ToastProvider>
+          <form onSubmit={handleReservation} className="space-y-4">
+            <Select
+              value={reservation.stadium}
+              onValueChange={(value) =>
+                setReservation({ ...reservation, stadium: value })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue
+                  placeholder={content.reservations?.selectStadium}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {stadiums.map((stadium) => (
+                  <SelectItem key={stadium} value={stadium}>
+                    {stadium}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Input
+              type="date"
+              value={reservation.date}
+              onChange={(e) =>
+                setReservation({ ...reservation, date: e.target.value })
+              }
+            />
+            <Input
+              type="time"
+              value={reservation.time}
+              onChange={(e) =>
+                setReservation({ ...reservation, time: e.target.value })
+              }
+            />
+            <Select
+              value={reservation.team}
+              onValueChange={(value) =>
+                setReservation({ ...reservation, team: value })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={content.reservations?.selectTeam} />
+              </SelectTrigger>
+              <SelectContent>
+                {teams.map((team) => (
+                  <SelectItem key={team} value={team}>
+                    {team}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button type="submit">
+              {content.reservations?.makeReservation}
+            </Button>
+          </form>
+        </ToastProvider>
       </CardContent>
     </Card>
   );

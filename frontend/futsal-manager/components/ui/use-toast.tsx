@@ -1,7 +1,8 @@
 'use client';
 
+import { DetailedHTMLProps, HTMLAttributes, useState } from 'react';
+
 import styled from 'styled-components';
-import { useState } from 'react';
 
 const ToastContainer = styled.div`
   position: fixed;
@@ -10,7 +11,7 @@ const ToastContainer = styled.div`
   z-index: 9999;
 `;
 
-const Toast = styled.div`
+const Toast = styled.div<ToastProps>`
   background-color: #333;
   color: white;
   padding: 15px;
@@ -32,6 +33,11 @@ const ToastButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+
+interface ToastProps
+  extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  isVisible: boolean;
+}
 
 export interface Toast {
   id: number;
@@ -62,7 +68,7 @@ function useToast() {
   return { showToast, toasts };
 }
 
-const ToastProvider = ({ children }: HTMLDivElement) => {
+const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const { showToast, toasts } = useToast();
 
   return (

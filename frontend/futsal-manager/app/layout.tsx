@@ -22,12 +22,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex flex-col min-h-screen">
-            <Navigation translations={content} />
+            <Navigation />
             <main className="flex-1 container mx-auto py-6 px-4">
               {children}
             </main>
             <footer className="border-t py-4 text-center text-sm text-muted-foreground">
-              © {new Date().getFullYear()} {content.appName}.{' '}
+              © {new Date().getFullYear()} {content.appName}.
               {content.footer?.rights}
             </footer>
           </div>
