@@ -21,6 +21,7 @@
     "title": "Gestionar Usuarios",
     "name": "Nombre de Usuario",
     "email": "Correo Electrónico",
+    "phone": "Telefono",
     "addUser": "Añadir Usuario",
     "actions": "Acciones",
     "delete": "Eliminar"

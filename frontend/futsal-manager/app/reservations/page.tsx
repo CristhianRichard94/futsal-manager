@@ -28,7 +28,7 @@ export default function ReservationsPage() {
   });
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  // const { showToast } = useToast();
+  const { showToast } = useToast();
   useEffect(() => {
     HttpService.getReservations().then((reservations) => {
       setReservations(reservations);
@@ -75,9 +75,12 @@ export default function ReservationsPage() {
 
           <form onSubmit={handleReservation} className="space-y-4">
             <Select
-              value={reservation?.stadium}
-              onValueChange={(value: Stadium) =>
-                setReservation({ ...reservation, stadium: value })
+              value={reservation?.stadium.name}
+              onValueChange={(value: string) =>
+                setReservation({
+                  ...reservation,
+                  stadium: stadiums.find((s) => s.name === value) as Stadium,
+                })
               }
             >
               <SelectTrigger>
@@ -118,7 +121,4 @@ export default function ReservationsPage() {
       ))}
     </div>
   );
-}
-function showToast(arg0: { title: string; description: string }) {
-  throw new Error("Function not implemented.");
 }

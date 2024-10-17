@@ -19,7 +19,7 @@ import { HttpService } from "@/service/HttpService";
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
-  const [newUser, setNewUser] = useState({ name: "", email: "" });
+  const [newUser, setNewUser] = useState({ name: "", email: "", phone: 0 });
 
   useEffect(() => {
     HttpService.getUsers().then((users) => {
@@ -28,9 +28,9 @@ export default function UsersPage() {
   }, []);
 
   const addUser = () => {
-    if (newUser.name && newUser.email) {
+    if (newUser.name && newUser.email && newUser.phone) {
       setUsers([...users, { id: Date.now(), ...newUser }]);
-      setNewUser({ name: "", email: "" });
+      setNewUser({ name: "", email: "", phone: 0 });
     }
   };
 
@@ -62,6 +62,7 @@ export default function UsersPage() {
             <TableRow>
               <TableHead>{content.users?.name}</TableHead>
               <TableHead>{content.users?.email}</TableHead>
+              <TableHead>{content.users?.phone}</TableHead>
               <TableHead>{content.users?.actions}</TableHead>
             </TableRow>
           </TableHeader>
@@ -70,6 +71,7 @@ export default function UsersPage() {
               <TableRow key={user.id}>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
+                <TableCell>{user.phone}</TableCell>
                 <TableCell>
                   <Button
                     variant="destructive"
