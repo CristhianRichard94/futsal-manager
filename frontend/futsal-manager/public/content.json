@@ -11,9 +11,9 @@
   },
   "stadiums": {
     "title": "Gestionar Canchas",
-    "name": "Nombre del Estadio",
-    "location": "Ubicación",
-    "addStadium": "Añadir Estadio",
+    "name": "Nombre de la Cancha",
+    "address": "Dirección",
+    "addStadium": "Añadir Cancha",
     "actions": "Acciones",
     "delete": "Eliminar"
   },
@@ -35,11 +35,11 @@
   },
   "reservations": {
     "title": "Hacer una Reserva",
-    "selectStadium": "Seleccionar Estadio",
+    "selectStadium": "Seleccionar Cancha",
     "selectTeam": "Seleccionar Equipo",
     "makeReservation": "Hacer Reserva",
     "success": "Reserva Exitosa",
-    "successMessage": "Has reservado {stadium} para {team} el {date} a las {time}."
+    "successMessage": "Has reservado {stadium} el {date} a las {time}."
   },
   "dashboard": {
     "stadiums": {

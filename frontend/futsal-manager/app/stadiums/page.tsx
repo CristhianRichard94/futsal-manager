@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -8,30 +8,33 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import content from '../../public/content.json';
-import { useState } from 'react';
-
-type Stadium = {
-  id: number;
-  name: string;
-  location: string;
-};
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import content from "../../public/content.json";
+import { useEffect, useState } from "react";
+import { HttpService } from "@/service/HttpService";
+import { Stadium } from "@/lib/types";
 
 export default function StadiumsPage() {
-  const [stadiums, setStadiums] = useState<Stadium[]>([
-    { id: 1, name: 'Futsal Arena', location: 'Downtown' },
-    { id: 2, name: 'Soccer City', location: 'Uptown' },
-  ]);
-  const [newStadium, setNewStadium] = useState({ name: '', location: '' });
+  const [stadiums, setStadiums] = useState<Stadium[]>([]);
+  const [newStadium, setNewStadium] = useState({
+    name: "",
+    address: "",
+    phone: 0,
+  });
+
+  useEffect(() => {
+    HttpService.getStadiums().then((stadiums) => {
+      setStadiums(stadiums);
+    });
+  }, []);
 
   const addStadium = () => {
-    if (newStadium.name && newStadium.location) {
+    if (newStadium.name && newStadium.address) {
       setStadiums([...stadiums, { id: Date.now(), ...newStadium }]);
-      setNewStadium({ name: '', location: '' });
+      setNewStadium({ name: "", address: "", phone: 0 });
     }
   };
 
@@ -54,10 +57,10 @@ export default function StadiumsPage() {
             }
           />
           <Input
-            placeholder={content.stadiums?.location}
-            value={newStadium.location}
+            placeholder={content.stadiums?.address}
+            value={newStadium.address}
             onChange={(e) =>
-              setNewStadium({ ...newStadium, location: e.target.value })
+              setNewStadium({ ...newStadium, address: e.target.value })
             }
           />
           <Button onClick={addStadium}>{content.stadiums?.addStadium}</Button>
@@ -66,7 +69,7 @@ export default function StadiumsPage() {
           <TableHeader>
             <TableRow>
               <TableHead>{content.stadiums?.name}</TableHead>
-              <TableHead>{content.stadiums?.location}</TableHead>
+              <TableHead>{content.stadiums?.address}</TableHead>
               <TableHead>{content.stadiums?.actions}</TableHead>
             </TableRow>
           </TableHeader>
@@ -74,7 +77,7 @@ export default function StadiumsPage() {
             {stadiums.map((stadium) => (
               <TableRow key={stadium.id}>
                 <TableCell>{stadium.name}</TableCell>
-                <TableCell>{stadium.location}</TableCell>
+                <TableCell>{stadium.address}</TableCell>
                 <TableCell>
                   <Button
                     variant="destructive"

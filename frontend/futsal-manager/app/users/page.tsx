@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -8,30 +8,29 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import content from '../../public/content.json';
-import { useState } from 'react';
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import content from "../../public/content.json";
+import { useEffect, useState } from "react";
+import { User } from "@/lib/types";
+import { HttpService } from "@/service/HttpService";
 
 export default function UsersPage() {
-  const [users, setUsers] = useState<User[]>([
-    { id: 1, name: 'John Doe', email: 'john@example.com' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-  ]);
-  const [newUser, setNewUser] = useState({ name: '', email: '' });
+  const [users, setUsers] = useState<User[]>([]);
+  const [newUser, setNewUser] = useState({ name: "", email: "" });
+
+  useEffect(() => {
+    HttpService.getUsers().then((users) => {
+      setUsers(users);
+    });
+  }, []);
 
   const addUser = () => {
     if (newUser.name && newUser.email) {
       setUsers([...users, { id: Date.now(), ...newUser }]);
-      setNewUser({ name: '', email: '' });
+      setNewUser({ name: "", email: "" });
     }
   };
 
