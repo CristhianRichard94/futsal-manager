@@ -8,6 +8,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import Providers from './providers';
 const inter = Inter({ subsets: ['latin'] });
+import { usePathname } from 'next/navigation';
 
 export default async function RootLayout({
   children,
@@ -18,7 +19,7 @@ export default async function RootLayout({
 
   const session = await getServerSession();
     const pathname =
-      (typeof window === 'undefined' && require('next/navigation').usePathname?.()) ||
+      (typeof window === 'undefined' && usePathname()) ||
       '';
       console.log(`Current pathname: ${pathname} - Session: ${session ? 'exists' : 'does not exist'}`);
       

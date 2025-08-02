@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/Button';
 import UserAuthStatus from '@/components/UserAuthStatus';
 import Link from 'next/link';
 import content from '../public/content/en.json';
-import { Session } from 'next-auth';
+
+
 export default function Navigation({ isSignedIn }: { isSignedIn: boolean }) {
   return (
     <nav className="border-b bg-primary/10">
