@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/Button';
 import UserAuthStatus from '@/components/UserAuthStatus';
 import Link from 'next/link';
 import content from '../public/content/en.json';

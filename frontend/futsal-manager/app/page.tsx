@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react"
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { signIn } from 'next-auth/react';
 import { Calendar } from 'lucide-react';
 import Link from 'next/link';

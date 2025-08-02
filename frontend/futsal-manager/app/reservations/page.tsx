@@ -1,17 +1,17 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/Card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
-import { ToastProvider, useToast } from "@/components/ui/UseToast";
+} from "@/components/Select";
+import { ToastProvider, useToast } from "@/components/UseToast";
 
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
 import content from "../../public/content/en.json";
 import { useEffect, useState } from "react";
 import { Reservation, Stadium } from "@/lib/types";
