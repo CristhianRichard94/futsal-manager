@@ -1,9 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
+import UserAuthStatus from '@/components/UserAuthStatus';
 import Link from 'next/link';
 import content from '../public/content/en.json';
-export default function Navigation() {
+import { Session } from 'next-auth';
+export default function Navigation({ isSignedIn }: { isSignedIn: boolean }) {
   return (
     <nav className="border-b bg-primary/10">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
@@ -15,18 +17,24 @@ export default function Navigation() {
           <span>{content.appName}</span>
         </Link>
         <div className="space-x-4">
-          <Button variant="ghost" asChild>
-            <Link href="/stadiums">{content.navigation?.stadiums}</Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/users">{content.navigation?.users}</Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/teams">{content.navigation?.teams}</Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/reservations">{content.navigation?.reservations}</Link>
-          </Button>
+          {isSignedIn && (
+            <>
+              <Button variant="ghost" asChild>
+                <Link href="/stadiums">{content.navigation?.stadiums}</Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                <Link href="/users">{content.navigation?.users}</Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                <Link href="/teams">{content.navigation?.teams}</Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                <Link href="/reservations">{content.navigation?.reservations}</Link>
+              </Button>
+            </>
+          )}
+
+          <UserAuthStatus />
         </div>
       </div>
     </nav>

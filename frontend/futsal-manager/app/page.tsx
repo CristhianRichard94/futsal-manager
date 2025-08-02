@@ -1,13 +1,21 @@
+"use client";
+import { useSession } from "next-auth/react"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-
+import { signIn } from 'next-auth/react';
 import { Calendar } from 'lucide-react';
 import Link from 'next/link';
 import content from '../public/content/en.json';
 
+
 export default function Dashboard() {
+    const { data: session } = useSession()
+  
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <Card className="bg-primary/5 hover:bg-primary/10 transition-colors">
+    <div>
+      <h1>Welcome to the Futsal Manager Dashboard</h1>
+      {session ? (
+        <> 
+        <Card className="bg-primary/5 hover:bg-primary/10 transition-colors">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Calendar className="w-6 h-6" />
@@ -40,8 +48,8 @@ export default function Dashboard() {
             {content.dashboard?.users.link}
           </Link>
         </CardContent>
-      </Card> */}
-      {/* <Card className="bg-primary/5 hover:bg-primary/10 transition-colors">
+      </Card>
+      <Card className="bg-primary/5 hover:bg-primary/10 transition-colors">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Shield className="w-6 h-6" />
@@ -74,7 +82,15 @@ export default function Dashboard() {
             {content.dashboard?.reservations.link}
           </Link>
         </CardContent>
-      </Card>
+      </Card> </>
+      ) : (
+
+        <>
+          <p className="mb-4">
+        Sign in to manage your futsal activities:
+      </p>
+      <button onClick={() => signIn()}>Sign in</button>
+      </>)}
     </div>
   );
 }
