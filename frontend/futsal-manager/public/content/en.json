@@ -1,0 +1,67 @@
+{
+  "appName": "Futsal Manager",
+  "navigation": {
+    "stadiums": "Stadiums",
+    "users": "Users",
+    "teams": "Teams",
+    "reservations": "Reservations"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  },
+  "stadiums": {
+    "title": "Manage Stadiums",
+    "name": "Stadium Name",
+    "address": "Address",
+    "addStadium": "Add Stadium",
+    "actions": "Actions",
+    "delete": "Delete"
+  },
+  "users": {
+    "title": "Manage Users",
+    "name": "Username",
+    "email": "Email",
+    "phone": "Phone",
+    "addUser": "Add User",
+    "actions": "Actions",
+    "delete": "Delete"
+  },
+  "teams": {
+    "title": "Manage Teams",
+    "name": "Team Name",
+    "coach": "Coach",
+    "addTeam": "Add Team",
+    "actions": "Actions",
+    "delete": "Delete"
+  },
+  "reservations": {
+    "title": "Make a Reservation",
+    "selectStadium": "Select Stadium",
+    "selectTeam": "Select Team",
+    "makeReservation": "Make Reservation",
+    "success": "Reservation Successful",
+    "successMessage": "You have reserved {stadium} on {date} at {time}."
+  },
+  "dashboard": {
+    "stadiums": {
+      "title": "Stadiums",
+      "description": "Manage your futsal stadiums",
+      "link": "Go to Stadiums"
+    },
+    "users": {
+      "title": "Users",
+      "description": "Manage system users",
+      "link": "Go to Users"
+    },
+    "teams": {
+      "title": "Teams",
+      "description": "Manage futsal teams",
+      "link": "Go to Teams"
+    },
+    "reservations": {
+      "title": "Reservations",
+      "description": "Make Stadium Reservations",
+      "link": "Go to Reservations"
+    }
+  }
+}

@@ -1,18 +1,18 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { ToastProvider, useToast } from "@/components/ui/use-toast";
+} from "@/components/ui/Select";
+import { ToastProvider, useToast } from "@/components/ui/UseToast";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import content from "../../public/content.json";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import content from "../../public/content/en.json";
 import { useEffect, useState } from "react";
 import { Reservation, Stadium } from "@/lib/types";
 import { HttpService } from "@/service/HttpService";

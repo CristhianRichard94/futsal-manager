@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
-import content from '../public/content.json';
+import content from '../public/content/en.json';
 export default function Navigation() {
   return (
     <nav className="border-b bg-primary/10">

@@ -2,8 +2,8 @@ import './globals.css';
 
 import { Inter } from 'next/font/google';
 import Navigation from '@/components/Navigation';
-import { ThemeProvider } from '@/components/theme-provider';
-import content from '../public/content.json';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import content from '../public/content/en.json';
 
 const inter = Inter({ subsets: ['latin'] });
 

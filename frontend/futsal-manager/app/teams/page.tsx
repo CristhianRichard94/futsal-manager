@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import {
   Table,
   TableBody,
@@ -8,11 +8,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@/components/ui/Table';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import content from '../../public/content.json';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import content from '../../public/content/en.json';
 import { useState } from 'react';
 
 type Team = {

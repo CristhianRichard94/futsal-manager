@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
 import { Calendar } from 'lucide-react';
 import Link from 'next/link';
-import content from '../public/content.json';
+import content from '../public/content/en.json';
 
 export default function Dashboard() {
   return (
