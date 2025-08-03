@@ -1,26 +1,31 @@
 export interface Stadium {
-  id: number;
+  id: string;
   name: string;
   address: string;
   phone: number;
 }
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone: number;
+  role: UserRole;
 }
 
+export enum UserRole {
+  Admin,
+  User,
+}
 export interface Reservation {
-  id: number;
+  id: string;
   user: User;
   stadium: Stadium;
   datetime: string;
 }
 
 export interface AddReservation {
-  userId: number;
-  stadiumId: number;
+  userId: string;
+  stadiumId: string;
   datetime: string;
 }

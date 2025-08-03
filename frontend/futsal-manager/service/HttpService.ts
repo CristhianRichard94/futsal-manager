@@ -1,4 +1,4 @@
-import { Stadium, User, Reservation, AddReservation } from "@/lib/types";
+import { AddReservation, Reservation, Stadium, User } from "@/lib/types";
 import axios from "axios";
 
 const API_BASE_URL = "https://cristhianrichard94.pythonanywhere.com"; // Adjust this to your backend URL
@@ -42,6 +42,17 @@ export const HttpService = {
 
   deleteUser: async (userId: number): Promise<void> => {
     await axios.delete(`${API_BASE_URL}/users/${userId}`);
+  },
+
+  getUser: async (userId: number): Promise<User> => {
+    const response = await axios.get(`${API_BASE_URL}/users/${userId}`);
+    return response.data;
+  },
+
+  getUserByEmail: async (email: string): Promise<User> => {
+    const encodedEmail = encodeURIComponent(email);
+    const response = await axios.get(`${API_BASE_URL}/users/${encodedEmail}`);
+    return response.data;
   },
 
   // Reservation operations
