@@ -65,6 +65,18 @@ def get_current_user(
     return user
 
 
+def get_current_user_optional(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+    db: Session = Depends(get_db),
+) -> User | None:
+    """Same logic as get_current_user, but returns None instead of raising 401
+    when credentials are missing, invalid, or don't resolve to a user."""
+    try:
+        return get_current_user(credentials, db)
+    except HTTPException:
+        return None
+
+
 def get_current_admin(current_user: User = Depends(get_current_user)) -> User:
     if current_user.role != UserRole.venue_admin:
         raise HTTPException(

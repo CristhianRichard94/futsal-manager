@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     FRONTEND_BASE_URL: str = "http://localhost:3000"
     BACKEND_BASE_URL: str = "http://localhost:8000"
 
+    # Shared secret between the frontend and this backend, used only to
+    # authenticate the frontend's server-side call to POST /auth/sync.
+    INTERNAL_SYNC_SECRET: str = ""
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     @property

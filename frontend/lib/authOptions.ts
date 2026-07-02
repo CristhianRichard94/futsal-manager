@@ -32,12 +32,20 @@ export const authOptions: NextAuthOptions = {
       // Only runs with `account`/`profile` populated on the initial sign-in.
       if (account && profile) {
         try {
-          const { data } = await axios.post(`${API_BASE_URL}/auth/sync`, {
-            google_id: account.providerAccountId,
-            email: profile.email,
-            name: profile.name,
-            avatar_url: (profile as { picture?: string }).picture ?? null,
-          });
+          const { data } = await axios.post(
+            `${API_BASE_URL}/auth/sync`,
+            {
+              google_id: account.providerAccountId,
+              email: profile.email,
+              name: profile.name,
+              avatar_url: (profile as { picture?: string }).picture ?? null,
+            },
+            {
+              headers: {
+                "X-Internal-Sync-Secret": process.env.INTERNAL_SYNC_SECRET || "",
+              },
+            }
+          );
           token.role = data.role as UserRole;
           token.backendUserId = data.id as number;
         } catch (error) {

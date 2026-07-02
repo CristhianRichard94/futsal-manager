@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
-from auth import get_current_admin
+from auth import get_current_admin, get_current_user_optional
 from database import get_db
 from models import Field, Reservation, ReservationStatus, User, Venue
 from schemas import FieldIn, FieldOut, VenueIn, VenueOut
@@ -21,12 +21,17 @@ def _get_owned_venue(venue_id: int, current_user: User, db: Session) -> Venue:
 @router.get("/venues", response_model=list[VenueOut])
 def list_venues(
     admin_user_id: int | None = Query(default=None),
+    current_user: User | None = Depends(get_current_user_optional),
     db: Session = Depends(get_db),
 ) -> list[Venue]:
-    query = db.query(Venue)
     if admin_user_id is not None:
-        query = query.filter(Venue.admin_user_id == admin_user_id)
-    return query.all()
+        if current_user is None or admin_user_id != current_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Cannot query venues for another admin",
+            )
+        return db.query(Venue).filter(Venue.admin_user_id == admin_user_id).all()
+    return db.query(Venue).all()
 
 
 @router.get("/venues/{venue_id}", response_model=VenueOut)
