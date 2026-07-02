@@ -1,0 +1,121 @@
+import enum
+from datetime import datetime
+
+from sqlalchemy import DateTime, Enum, ForeignKey, String, func, text
+from sqlalchemy.dialects.postgresql import ExcludeConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from database import Base
+
+
+class FieldSize(str, enum.Enum):
+    five = "five"
+    seven = "seven"
+    eleven = "eleven"
+
+
+class UserRole(str, enum.Enum):
+    player = "player"
+    venue_admin = "venue_admin"
+
+
+class ReservationStatus(str, enum.Enum):
+    confirmed = "confirmed"
+    cancelled = "cancelled"
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    google_id: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    avatar_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    role: Mapped[UserRole] = mapped_column(
+        Enum(UserRole, name="user_role"), nullable=False, default=UserRole.player
+    )
+    phone: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    venues: Mapped[list["Venue"]] = relationship(back_populates="admin", cascade="all, delete-orphan")
+    reservations: Mapped[list["Reservation"]] = relationship(back_populates="user", cascade="all, delete-orphan")
+
+
+class Venue(Base):
+    __tablename__ = "venues"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    address: Mapped[str] = mapped_column(String(255), nullable=False)
+    phone: Mapped[str] = mapped_column(String(20), nullable=False)
+    logo_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    admin_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    admin: Mapped["User"] = relationship(back_populates="venues")
+    fields: Mapped[list["Field"]] = relationship(back_populates="venue", cascade="all, delete-orphan")
+
+
+class Field(Base):
+    __tablename__ = "fields"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    venue_id: Mapped[int] = mapped_column(ForeignKey("venues.id"), nullable=False)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    size: Mapped[FieldSize] = mapped_column(Enum(FieldSize, name="field_size"), nullable=False)
+    image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    venue: Mapped["Venue"] = relationship(back_populates="fields")
+    # NOTE: no delete-orphan here on purpose — reservations must survive field
+    # deletion for historical/audit purposes. Deletion of a field with
+    # non-cancelled reservations is blocked at the router level instead.
+    reservations: Mapped[list["Reservation"]] = relationship(back_populates="field")
+
+
+class Reservation(Base):
+    __tablename__ = "reservations"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    field_id: Mapped[int] = mapped_column(ForeignKey("fields.id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    end_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    status: Mapped[ReservationStatus] = mapped_column(
+        Enum(ReservationStatus, name="reservation_status"),
+        nullable=False,
+        default=ReservationStatus.confirmed,
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    field: Mapped["Field"] = relationship(back_populates="reservations")
+    user: Mapped["User"] = relationship(back_populates="reservations")
+
+    __table_args__ = (
+        # Race-safe guarantee against double-booking: two overlapping,
+        # confirmed reservations for the same field can never both commit,
+        # even under concurrent requests. Requires the btree_gist extension
+        # (enabled at startup in main.py, since we use create_all instead of
+        # Alembic migrations). The app-level overlap check in
+        # routers/reservations.py remains as a fast-path / clean 409 error;
+        # this constraint is the actual source of truth.
+        ExcludeConstraint(
+            ("field_id", "="),
+            (text("tsrange(start_time, end_time)"), "&&"),
+            where=text("status = 'confirmed'"),
+            name="reservations_no_overlap",
+        ),
+    )

@@ -1,29 +1,37 @@
+"use client";
+
 import { useSession, signIn, signOut } from "next-auth/react";
-import Image from "next/image";
 import Tooltip from "./ui/Tooltip";
+import { Button } from "./ui/Button";
 
 export default function AuthStatus() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return null;
+  }
 
   if (session?.user) {
     const userImage = session.user.image || "/favicon.ico";
     return (
-      <>
+      <div className="flex items-center gap-2">
         <Tooltip content={session.user?.name || session.user?.email || ""}>
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={userImage}
             alt="User Avatar"
-            className="w-8 h-8 rounded-full inline-block mr-2"
+            className="w-8 h-8 rounded-full inline-block"
           />
         </Tooltip>
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
+        <Button variant="ghost" size="sm" onClick={() => signOut({ callbackUrl: "/" })}>
+          Sign out
+        </Button>
+      </div>
     );
   }
   return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
+    <Button variant="outline" size="sm" onClick={() => signIn("google")}>
+      Sign in
+    </Button>
   );
 }
