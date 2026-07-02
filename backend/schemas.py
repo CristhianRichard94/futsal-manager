@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from models import FieldSize, ReservationStatus, UserRole
+from models import FieldSize, PaymentStatus, ReservationStatus, UserRole
 
 # ---------------------------------------------------------------------------
 # Users
@@ -48,6 +48,7 @@ class VenueIn(BaseModel):
     address: str = Field(min_length=1)
     phone: str = Field(min_length=1)
     logo_url: str | None = None
+    deposit_required: bool = False
 
 
 class VenueOut(BaseModel):
@@ -59,6 +60,7 @@ class VenueOut(BaseModel):
     phone: str
     logo_url: str | None
     admin_user_id: int
+    deposit_required: bool
     created_at: datetime
     updated_at: datetime
 
@@ -97,6 +99,17 @@ class ReservationIn(BaseModel):
     end_time: datetime
 
 
+class PaymentOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    reservation_id: int
+    status: PaymentStatus
+    amount: int
+    created_at: datetime
+    updated_at: datetime
+
+
 class ReservationOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -107,8 +120,13 @@ class ReservationOut(BaseModel):
     start_time: datetime
     end_time: datetime
     status: ReservationStatus
+    payment: PaymentOut | None
     created_at: datetime
     updated_at: datetime
+
+
+class ReservationWithCheckoutOut(ReservationOut):
+    checkout_url: str | None = None
 
 
 class AvailabilityOut(BaseModel):

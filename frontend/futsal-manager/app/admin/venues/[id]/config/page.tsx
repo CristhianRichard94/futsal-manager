@@ -60,7 +60,13 @@ export default function VenueConfigPage() {
   const [notFound, setNotFound] = useState(false);
   const [forbidden, setForbidden] = useState(false);
 
-  const [venueForm, setVenueForm] = useState({ name: "", address: "", phone: "", logo_url: "" });
+  const [venueForm, setVenueForm] = useState({
+    name: "",
+    address: "",
+    phone: "",
+    logo_url: "",
+    deposit_required: false,
+  });
   const [savingVenue, setSavingVenue] = useState(false);
   const [venueSaveError, setVenueSaveError] = useState<string | null>(null);
 
@@ -91,6 +97,7 @@ export default function VenueConfigPage() {
           address: venueData.address,
           phone: venueData.phone,
           logo_url: venueData.logo_url ?? "",
+          deposit_required: venueData.deposit_required,
         });
       })
       .catch((err) => {
@@ -116,6 +123,7 @@ export default function VenueConfigPage() {
         address: venueForm.address,
         phone: venueForm.phone,
         logo_url: venueForm.logo_url || null,
+        deposit_required: venueForm.deposit_required,
       });
       setVenue(updated);
     } catch (err: unknown) {
@@ -230,6 +238,22 @@ export default function VenueConfigPage() {
                 value={venueForm.logo_url}
                 onChange={(e) => setVenueForm({ ...venueForm, logo_url: e.target.value })}
               />
+              <label className="flex items-start gap-2 pt-2 text-sm">
+                <input
+                  type="checkbox"
+                  className="mt-0.5 h-4 w-4 rounded border-input"
+                  checked={venueForm.deposit_required}
+                  onChange={(e) =>
+                    setVenueForm({ ...venueForm, deposit_required: e.target.checked })
+                  }
+                />
+                <span>
+                  <span className="block font-medium">{t("depositRequired")}</span>
+                  <span className="block text-muted-foreground">
+                    {t("depositRequiredDescription")}
+                  </span>
+                </span>
+              </label>
               {venueSaveError && <ErrorBanner message={venueSaveError} />}
               <Button
                 onClick={handleSaveVenue}

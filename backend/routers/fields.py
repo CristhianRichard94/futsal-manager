@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from auth import get_current_admin
 from database import get_db
+from db_utils import sweep_expired_pending_payments
 from models import Field, Reservation, ReservationStatus, User
 from schemas import AvailabilityOut, FieldIn, FieldOut
 
@@ -77,6 +78,8 @@ def get_field_availability(
     day: date = Query(..., alias="date"),
     db: Session = Depends(get_db),
 ) -> list[Reservation]:
+    sweep_expired_pending_payments(db)
+
     field = db.query(Field).filter(Field.id == field_id).first()
     if not field:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Field not found")
@@ -89,7 +92,10 @@ def get_field_availability(
         db.query(Reservation)
         .filter(
             Reservation.field_id == field_id,
-            Reservation.status == ReservationStatus.confirmed,
+            # pending_payment reservations hold the slot too (see
+            # reservations_no_overlap constraint in models.py), so they must
+            # also be reflected as unavailable here.
+            Reservation.status.in_([ReservationStatus.confirmed, ReservationStatus.pending_payment]),
             Reservation.start_time <= day_end,
             Reservation.end_time >= day_start,
         )
