@@ -1,16 +1,15 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-const PROTECTED_PREFIXES = ["/me", "/admin"];
+const PROTECTED_PREFIXES = ["/me", "/admin", "/venues"];
 const ADMIN_ONLY_PREFIXES = ["/admin"];
-const BOOK_PAGE_PATTERN = /^\/venues\/[^/]+\/book(\/.*)?$/;
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const requiresAuth =
-    PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix)) ||
-    BOOK_PAGE_PATTERN.test(pathname);
+  const requiresAuth = PROTECTED_PREFIXES.some((prefix) =>
+    pathname.startsWith(prefix)
+  );
   if (!requiresAuth) {
     return NextResponse.next();
   }
@@ -38,5 +37,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/me/:path*", "/admin/:path*", "/venues/:id/book/:path*"],
+  matcher: ["/me/:path*", "/admin/:path*", "/venues", "/venues/:path*"],
 };

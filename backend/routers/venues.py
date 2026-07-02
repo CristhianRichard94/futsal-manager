@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
-from auth import get_current_admin, get_current_user_optional
+from auth import get_current_admin, get_current_user
 from database import get_db
 from models import Field, Reservation, ReservationStatus, User, Venue
 from schemas import FieldIn, FieldOut, VenueIn, VenueOut
@@ -21,11 +21,11 @@ def _get_owned_venue(venue_id: int, current_user: User, db: Session) -> Venue:
 @router.get("/venues", response_model=list[VenueOut])
 def list_venues(
     admin_user_id: int | None = Query(default=None),
-    current_user: User | None = Depends(get_current_user_optional),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> list[Venue]:
     if admin_user_id is not None:
-        if current_user is None or admin_user_id != current_user.id:
+        if admin_user_id != current_user.id:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Cannot query venues for another admin",
@@ -35,7 +35,11 @@ def list_venues(
 
 
 @router.get("/venues/{venue_id}", response_model=VenueOut)
-def get_venue(venue_id: int, db: Session = Depends(get_db)) -> Venue:
+def get_venue(
+    venue_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> Venue:
     venue = db.query(Venue).filter(Venue.id == venue_id).first()
     if not venue:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Venue not found")
@@ -100,7 +104,11 @@ def delete_venue(
 
 
 @router.get("/venues/{venue_id}/fields", response_model=list[FieldOut])
-def list_venue_fields(venue_id: int, db: Session = Depends(get_db)) -> list[Field]:
+def list_venue_fields(
+    venue_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> list[Field]:
     venue = db.query(Venue).filter(Venue.id == venue_id).first()
     if not venue:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Venue not found")

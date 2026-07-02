@@ -3,7 +3,7 @@ from datetime import date, datetime, time, timezone
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
-from auth import get_current_admin
+from auth import get_current_admin, get_current_user
 from database import get_db
 from db_utils import sweep_expired_pending_payments
 from models import Field, Reservation, ReservationStatus, User
@@ -22,7 +22,11 @@ def _get_owned_field(field_id: int, current_user: User, db: Session) -> Field:
 
 
 @router.get("/fields/{field_id}", response_model=FieldOut)
-def get_field(field_id: int, db: Session = Depends(get_db)) -> Field:
+def get_field(
+    field_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+) -> Field:
     field = db.query(Field).filter(Field.id == field_id).first()
     if not field:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Field not found")
@@ -76,6 +80,7 @@ def delete_field(
 def get_field_availability(
     field_id: int,
     day: date = Query(..., alias="date"),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> list[Reservation]:
     sweep_expired_pending_payments(db)
