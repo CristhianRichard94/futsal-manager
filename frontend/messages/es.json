@@ -21,7 +21,15 @@
     "browseVenues": "Explorar Sedes",
     "signInWithGoogle": "Iniciar sesión con Google",
     "myBookings": "Mis Reservas",
-    "manageMyVenues": "Gestionar Mis Sedes"
+    "manageMyVenues": "Gestionar Mis Sedes",
+    "howItWorks": {
+      "step1Title": "Explorá las canchas",
+      "step1Description": "Descubrí canchas de futsal cerca tuyo y consultá su disponibilidad en tiempo real.",
+      "step2Title": "Elegí un horario",
+      "step2Description": "Seleccioná la cancha, la fecha y el horario que mejor te quede para tu partido.",
+      "step3Title": "Confirmá tu reserva",
+      "step3Description": "Reservá al instante y preparate para jugar."
+    }
   },
   "login": {
     "signIn": "Iniciar sesión",

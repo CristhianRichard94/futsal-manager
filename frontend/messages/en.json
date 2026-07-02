@@ -21,7 +21,15 @@
     "browseVenues": "Browse Venues",
     "signInWithGoogle": "Sign in with Google",
     "myBookings": "My Bookings",
-    "manageMyVenues": "Manage My Venues"
+    "manageMyVenues": "Manage My Venues",
+    "howItWorks": {
+      "step1Title": "Browse venues",
+      "step1Description": "Explore futsal venues near you and check real-time availability.",
+      "step2Title": "Pick a time slot",
+      "step2Description": "Choose the field, date, and time that works for your match.",
+      "step3Title": "Confirm your booking",
+      "step3Description": "Reserve instantly and get ready to play."
+    }
   },
   "login": {
     "signIn": "Sign in",
