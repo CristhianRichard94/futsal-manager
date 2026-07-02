@@ -20,8 +20,15 @@ class UserRole(str, enum.Enum):
 
 
 class ReservationStatus(str, enum.Enum):
+    pending_payment = "pending_payment"
     confirmed = "confirmed"
     cancelled = "cancelled"
+
+
+class PaymentStatus(str, enum.Enum):
+    pending = "pending"
+    approved = "approved"
+    rejected = "rejected"
 
 
 class User(Base):
@@ -54,6 +61,7 @@ class Venue(Base):
     phone: Mapped[str] = mapped_column(String(20), nullable=False)
     logo_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     admin_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    deposit_required: Mapped[bool] = mapped_column(nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
@@ -96,6 +104,11 @@ class Reservation(Base):
         nullable=False,
         default=ReservationStatus.confirmed,
     )
+    # Only set for reservations created with status=pending_payment, i.e.
+    # when the venue requires a deposit. Abandoned checkouts are swept
+    # (flipped to cancelled) opportunistically at the top of the
+    # create_reservation/list_reservations endpoints — see routers/reservations.py.
+    payment_expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
@@ -103,19 +116,47 @@ class Reservation(Base):
 
     field: Mapped["Field"] = relationship(back_populates="reservations")
     user: Mapped["User"] = relationship(back_populates="reservations")
+    payment: Mapped["Payment | None"] = relationship(
+        back_populates="reservation", uselist=False, cascade="all, delete-orphan"
+    )
 
     __table_args__ = (
         # Race-safe guarantee against double-booking: two overlapping,
-        # confirmed reservations for the same field can never both commit,
-        # even under concurrent requests. Requires the btree_gist extension
-        # (enabled at startup in main.py, since we use create_all instead of
-        # Alembic migrations). The app-level overlap check in
-        # routers/reservations.py remains as a fast-path / clean 409 error;
-        # this constraint is the actual source of truth.
+        # confirmed OR pending-payment reservations for the same field can
+        # never both commit, even under concurrent requests. Pending-payment
+        # reservations must also hold the slot, otherwise two players could
+        # both start a deposit checkout for the same slot. Requires the
+        # btree_gist extension (enabled at startup in main.py, since we use
+        # create_all instead of Alembic migrations). The app-level overlap
+        # check in routers/reservations.py remains as a fast-path / clean
+        # 409 error; this constraint is the actual source of truth.
         ExcludeConstraint(
             ("field_id", "="),
             (text("tstzrange(start_time, end_time)"), "&&"),
-            where=text("status = 'confirmed'"),
+            where=text("status IN ('confirmed', 'pending_payment')"),
             name="reservations_no_overlap",
         ),
     )
+
+
+class Payment(Base):
+    __tablename__ = "payments"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    reservation_id: Mapped[int] = mapped_column(ForeignKey("reservations.id"), nullable=False, unique=True)
+    mp_preference_id: Mapped[str] = mapped_column(String(255), nullable=False)
+    # Only known once MP notifies us of an actual payment attempt; unique so
+    # webhook retries can upsert idempotently instead of creating duplicates.
+    mp_payment_id: Mapped[str | None] = mapped_column(String(255), nullable=True, unique=True)
+    status: Mapped[PaymentStatus] = mapped_column(
+        Enum(PaymentStatus, name="payment_status"),
+        nullable=False,
+        default=PaymentStatus.pending,
+    )
+    amount: Mapped[int] = mapped_column(nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    reservation: Mapped["Reservation"] = relationship(back_populates="payment")

@@ -54,7 +54,12 @@ export default function MyBookingsPage() {
       Cancelled: [],
     };
     (reservations ?? []).forEach((r) => {
-      buckets[getBookingDisplayStatus(r)].push(r);
+      const status = getBookingDisplayStatus(r);
+      // Reservations awaiting a Mercado Pago deposit payment still hold the
+      // slot and can still be cancelled by the player, so they're grouped
+      // with "Upcoming" here; BookingStatusBadge still shows the distinct
+      // "Pending payment" badge on the card itself.
+      buckets[status === "PendingPayment" ? "Upcoming" : status].push(r);
     });
     return buckets;
   }, [reservations]);

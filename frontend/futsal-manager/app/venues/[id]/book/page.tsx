@@ -94,11 +94,15 @@ function BookingContent() {
     setConfirming(true);
     setConfirmError(null);
     try {
-      await HttpService.createReservation({
+      const reservation = await HttpService.createReservation({
         field_id: Number(selectedFieldId),
         start_time: selectedSlot.start.toISOString(),
         end_time: selectedSlot.end.toISOString(),
       });
+      if (reservation.checkout_url) {
+        window.location.href = reservation.checkout_url;
+        return;
+      }
       setSuccess(true);
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response

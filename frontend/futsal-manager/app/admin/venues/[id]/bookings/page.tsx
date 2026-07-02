@@ -41,8 +41,9 @@ import ForbiddenPage from "@/components/ForbiddenPage";
 import BookingStatusBadge, {
   getBookingDisplayStatus,
 } from "@/components/BookingStatusBadge";
+import { Badge } from "@/components/ui/Badge";
 import { HttpService } from "@/service/HttpService";
-import { Field, Reservation } from "@/lib/types";
+import { Field, PaymentStatus, Reservation } from "@/lib/types";
 
 export default function AdminVenueBookingsPage() {
   const params = useParams<{ id: string }>();
@@ -94,6 +95,23 @@ export default function AdminVenueBookingsPage() {
 
   const fieldName = (fieldId: number) =>
     fields?.find((f) => f.id === fieldId)?.name ?? t("fieldFallback", { id: fieldId });
+
+  const paymentBadge = (reservation: Reservation) => {
+    if (!reservation.payment) return null;
+    const variant =
+      reservation.payment.status === PaymentStatus.Approved
+        ? "secondary"
+        : reservation.payment.status === PaymentStatus.Rejected
+          ? "destructive"
+          : "outline";
+    const label =
+      reservation.payment.status === PaymentStatus.Approved
+        ? t("paymentApproved")
+        : reservation.payment.status === PaymentStatus.Rejected
+          ? t("paymentRejected")
+          : t("paymentPending");
+    return <Badge variant={variant}>{label}</Badge>;
+  };
 
   const handleCancel = async (id: number) => {
     setCancellingId(id);
@@ -181,10 +199,13 @@ export default function AdminVenueBookingsPage() {
                             {format(new Date(r.end_time), "HH:mm")}
                           </TableCell>
                           <TableCell>
-                            <BookingStatusBadge status={status} />
+                            <div className="flex flex-wrap items-center gap-1">
+                              <BookingStatusBadge status={status} />
+                              {paymentBadge(r)}
+                            </div>
                           </TableCell>
                           <TableCell>
-                            {status === "Upcoming" && (
+                            {(status === "Upcoming" || status === "PendingPayment") && (
                               <AlertDialog>
                                 <AlertDialogTrigger asChild>
                                   <Button
@@ -231,7 +252,10 @@ export default function AdminVenueBookingsPage() {
                             <p className="font-medium">{r.user.name}</p>
                             <p className="text-xs text-muted-foreground">{r.user.email}</p>
                           </div>
-                          <BookingStatusBadge status={status} />
+                          <div className="flex flex-wrap items-center gap-1">
+                            <BookingStatusBadge status={status} />
+                            {paymentBadge(r)}
+                          </div>
                         </div>
                         <p className="text-sm text-muted-foreground">{fieldName(r.field_id)}</p>
                         <p className="text-sm">
@@ -239,7 +263,7 @@ export default function AdminVenueBookingsPage() {
                           {format(new Date(r.start_time), "HH:mm")}–
                           {format(new Date(r.end_time), "HH:mm")}
                         </p>
-                        {status === "Upcoming" && (
+                        {(status === "Upcoming" || status === "PendingPayment") && (
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <Button

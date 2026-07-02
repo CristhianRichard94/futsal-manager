@@ -126,7 +126,9 @@
     "deleteFieldGenericError": "No se pudo eliminar la cancha. Inténtalo de nuevo.",
     "sizeFive": "5 jugadores",
     "sizeSeven": "7 jugadores",
-    "sizeEleven": "11 jugadores"
+    "sizeEleven": "11 jugadores",
+    "depositRequired": "Requerir depósito al reservar",
+    "depositRequiredDescription": "Los jugadores deben pagar un depósito vía Mercado Pago para confirmar una reserva. El horario se retiene 15 minutos mientras el pago está en curso."
   },
   "adminBookings": {
     "title": "Reservas de la Sede",
@@ -148,7 +150,10 @@
     "cancelDialogTitle": "¿Cancelar esta reserva?",
     "cancelDialogDescription": "Esto liberará el horario. Esta acción no se puede deshacer.",
     "keepBooking": "Mantener reserva",
-    "yesCancel": "Sí, cancelar"
+    "yesCancel": "Sí, cancelar",
+    "paymentPending": "Depósito pendiente",
+    "paymentApproved": "Depósito pagado",
+    "paymentRejected": "Depósito rechazado"
   },
   "common": {
     "retry": "Reintentar"
@@ -171,9 +176,24 @@
   "bookingStatus": {
     "Upcoming": "Próxima",
     "Past": "Pasada",
-    "Cancelled": "Cancelada"
+    "Cancelled": "Cancelada",
+    "PendingPayment": "Pago pendiente"
   },
   "timeSlotGrid": {
     "ariaLabel": "Horarios disponibles"
+  },
+  "bookReturn": {
+    "title": "Estado del pago",
+    "checking": "Verificando el estado de tu pago...",
+    "approvedTitle": "¡Pago aprobado!",
+    "approvedDescription": "Tu reserva está confirmada.",
+    "pendingTitle": "Pago pendiente",
+    "pendingDescription": "Todavía estamos esperando la confirmación de Mercado Pago. Esta página se actualizará automáticamente.",
+    "rejectedTitle": "El pago falló",
+    "rejectedDescription": "Tu pago no fue aprobado y la reserva fue cancelada. Por favor intenta reservar de nuevo.",
+    "timeoutDescription": "Todavía no pudimos confirmar el estado de tu pago. Revisa tus reservas más tarde o contacta a soporte.",
+    "viewMyBookings": "Ver mis reservas",
+    "backToVenue": "Volver a la sede",
+    "tryAgain": "Intentar reservar de nuevo"
   }
 }

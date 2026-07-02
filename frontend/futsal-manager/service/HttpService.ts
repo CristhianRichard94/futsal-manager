@@ -6,6 +6,7 @@ import {
   FieldInput,
   Reservation,
   ReservationInput,
+  ReservationWithCheckout,
   User,
   UserSyncInput,
   Venue,
@@ -118,8 +119,13 @@ export const HttpService = {
     return response.data;
   },
 
-  createReservation: async (payload: ReservationInput): Promise<Reservation> => {
+  createReservation: async (payload: ReservationInput): Promise<ReservationWithCheckout> => {
     const response = await apiClient.post(`/reservations`, payload);
+    return response.data;
+  },
+
+  getReservation: async (reservationId: number | string): Promise<Reservation> => {
+    const response = await apiClient.get(`/reservations/${reservationId}`);
     return response.data;
   },
 

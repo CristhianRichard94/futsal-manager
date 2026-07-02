@@ -10,8 +10,24 @@ export enum UserRole {
 }
 
 export enum ReservationStatus {
+  PendingPayment = "pending_payment",
   Confirmed = "confirmed",
   Cancelled = "cancelled",
+}
+
+export enum PaymentStatus {
+  Pending = "pending",
+  Approved = "approved",
+  Rejected = "rejected",
+}
+
+export interface Payment {
+  id: number;
+  reservation_id: number;
+  status: PaymentStatus;
+  amount: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface UserSummary {
@@ -39,6 +55,7 @@ export interface Venue {
   phone: string;
   logo_url: string | null;
   admin_user_id: number;
+  deposit_required: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -48,6 +65,7 @@ export interface VenueInput {
   address: string;
   phone: string;
   logo_url?: string | null;
+  deposit_required?: boolean;
 }
 
 export interface Field {
@@ -74,8 +92,13 @@ export interface Reservation {
   start_time: string;
   end_time: string;
   status: ReservationStatus;
+  payment: Payment | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface ReservationWithCheckout extends Reservation {
+  checkout_url: string | null;
 }
 
 export interface ReservationInput {

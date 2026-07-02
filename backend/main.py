@@ -6,7 +6,7 @@ from sqlalchemy import text
 
 from config import settings
 from database import Base, engine
-from routers import auth_router, fields, reservations, venues
+from routers import auth_router, fields, payments, reservations, venues
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -37,6 +37,7 @@ def create_app() -> FastAPI:
     app.include_router(venues.router)
     app.include_router(fields.router)
     app.include_router(reservations.router)
+    app.include_router(payments.router)
     app.include_router(auth_router.router)
 
     @app.on_event("startup")

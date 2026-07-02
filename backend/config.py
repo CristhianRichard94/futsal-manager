@@ -8,6 +8,11 @@ class Settings(BaseSettings):
     NEXTAUTH_SECRET: str = "change-me"
     ALLOWED_ORIGINS: str = "http://localhost:3000"
 
+    MERCADOPAGO_ACCESS_TOKEN: str = ""
+    DEPOSIT_AMOUNT: int = 1000
+    FRONTEND_BASE_URL: str = "http://localhost:3000"
+    BACKEND_BASE_URL: str = "http://localhost:8000"
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     @property

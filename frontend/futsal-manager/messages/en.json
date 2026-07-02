@@ -126,7 +126,9 @@
     "deleteFieldGenericError": "Failed to delete field. Please try again.",
     "sizeFive": "5-a-side",
     "sizeSeven": "7-a-side",
-    "sizeEleven": "11-a-side"
+    "sizeEleven": "11-a-side",
+    "depositRequired": "Require a deposit at booking time",
+    "depositRequiredDescription": "Players must pay a deposit via Mercado Pago to confirm a booking. The slot is held for 15 minutes while payment is in progress."
   },
   "adminBookings": {
     "title": "Venue Bookings",
@@ -148,7 +150,10 @@
     "cancelDialogTitle": "Cancel this booking?",
     "cancelDialogDescription": "This will free up the slot. This action cannot be undone.",
     "keepBooking": "Keep booking",
-    "yesCancel": "Yes, cancel"
+    "yesCancel": "Yes, cancel",
+    "paymentPending": "Deposit pending",
+    "paymentApproved": "Deposit paid",
+    "paymentRejected": "Deposit rejected"
   },
   "common": {
     "retry": "Retry"
@@ -171,9 +176,24 @@
   "bookingStatus": {
     "Upcoming": "Upcoming",
     "Past": "Past",
-    "Cancelled": "Cancelled"
+    "Cancelled": "Cancelled",
+    "PendingPayment": "Pending payment"
   },
   "timeSlotGrid": {
     "ariaLabel": "Available time slots"
+  },
+  "bookReturn": {
+    "title": "Payment status",
+    "checking": "Checking your payment status...",
+    "approvedTitle": "Payment approved!",
+    "approvedDescription": "Your booking is confirmed.",
+    "pendingTitle": "Payment pending",
+    "pendingDescription": "We are still waiting for confirmation from Mercado Pago. This page will update automatically.",
+    "rejectedTitle": "Payment failed",
+    "rejectedDescription": "Your payment was not approved and the reservation was cancelled. Please try booking again.",
+    "timeoutDescription": "We could not confirm your payment status yet. Check your bookings later or contact support.",
+    "viewMyBookings": "View my bookings",
+    "backToVenue": "Back to venue",
+    "tryAgain": "Try booking again"
   }
 }
