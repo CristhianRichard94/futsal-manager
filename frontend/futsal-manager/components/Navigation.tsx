@@ -3,10 +3,12 @@
 import { Button } from "@/components/ui/Button";
 import UserAuthStatus from "@/components/UserAuthStatus";
 import Link from "next/link";
-import content from "../public/content/en.json";
 import { Session } from "next-auth";
+import { UserRole } from "@/lib/types";
 
 export default function Navigation({ session }: { session: Session | null }) {
+  const isAdmin = session?.user?.role === UserRole.VenueAdmin;
+
   return (
     <nav className="border-b bg-primary/10">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
@@ -14,26 +16,22 @@ export default function Navigation({ session }: { session: Session | null }) {
           href="/"
           className="text-2xl font-bold flex items-center space-x-2"
         >
-          {/* <SoccerBall className="w-6 h-6" /> */}
-          <span>{content.appName}</span>
+          <span>Futsal Manager</span>
         </Link>
-        <div className="space-x-4">
+        <div className="flex items-center space-x-4">
+          <Button variant="ghost" asChild>
+            <Link href="/venues">Venues</Link>
+          </Button>
           {session && (
             <>
               <Button variant="ghost" asChild>
-                <Link href="/stadiums">{content.navigation?.stadiums}</Link>
+                <Link href="/me/bookings">My Bookings</Link>
               </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/users">{content.navigation?.users}</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/teams">{content.navigation?.teams}</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/reservations">
-                  {content.navigation?.reservations}
-                </Link>
-              </Button>
+              {isAdmin && (
+                <Button variant="ghost" asChild>
+                  <Link href="/admin/venues">My Venues</Link>
+                </Button>
+              )}
             </>
           )}
 
