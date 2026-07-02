@@ -60,3 +60,39 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes soft-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.35);
+    }
+    50% {
+      box-shadow: 0 0 0 8px hsl(var(--primary) / 0);
+    }
+  }
+  @keyframes cta-primary-intro {
+    0% {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+    22% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .animate-cta-primary-intro {
+    animation:
+      cta-primary-intro 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 260ms both,
+      soft-pulse 1.8s ease-in-out 660ms 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-cta-primary-intro {
+      animation: none;
+      opacity: 1;
+    }
+  }
+}
