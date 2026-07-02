@@ -23,7 +23,7 @@ import ErrorBanner from "@/components/ErrorBanner";
 import SizeBadge from "@/components/SizeBadge";
 import TimeSlotGrid, { TimeSlot } from "@/components/TimeSlotGrid";
 import { HttpService } from "@/service/HttpService";
-import { Availability, Field } from "@/lib/types";
+import { Availability, Field, Venue } from "@/lib/types";
 
 // The date picker's `date` value is a local Date whose y/m/d components are
 // used verbatim as the "UTC calendar day" identifier sent to the backend.
@@ -43,6 +43,7 @@ function BookingContent() {
 
   const [fields, setFields] = useState<Field[] | null>(null);
   const [fieldsError, setFieldsError] = useState(false);
+  const [venue, setVenue] = useState<Venue | null>(null);
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(
     searchParams.get("field")
   );
@@ -57,6 +58,7 @@ function BookingContent() {
   const t = useTranslations("book");
 
   useEffect(() => {
+    HttpService.getVenue(params.id).then(setVenue).catch(() => {});
     HttpService.getVenueFields(params.id)
       .then((data) => {
         setFields(data);
@@ -220,9 +222,19 @@ function BookingContent() {
         </div>
 
         {selectedField && (
-          <div className="flex items-center gap-2">
-            <span className="font-medium">{selectedField.name}</span>
-            <SizeBadge size={selectedField.size} />
+          <div className="space-y-2">
+            {selectedField.image_url && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={selectedField.image_url}
+                alt={selectedField.name}
+                className="h-40 w-full rounded-md object-cover"
+              />
+            )}
+            <div className="flex items-center gap-2">
+              <span className="font-medium">{selectedField.name}</span>
+              <SizeBadge size={selectedField.size} />
+            </div>
           </div>
         )}
 
@@ -259,14 +271,22 @@ function BookingContent() {
 
       <div className="lg:col-span-1">
         <Card>
-          <CardHeader>
+          <CardHeader className="flex-row items-center gap-3 space-y-0">
+            {venue?.logo_url && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={venue.logo_url}
+                alt={venue.name}
+                className="h-10 w-10 rounded-full object-cover"
+              />
+            )}
             <CardTitle>{t("summary")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div>
               <span className="text-muted-foreground">{t("venueLabel")}</span>
               <span className="font-medium">
-                {t("venueValue", { id: params.id })}
+                {venue?.name ?? t("venueValue", { id: params.id })}
               </span>
             </div>
             <div>

@@ -15,7 +15,7 @@ try:
         admin = User(
             google_id="mock-admin-google-id",
             email="admin@example.com",
-            name="Alex Admin",
+            name="Mariano Gimenez",
             role=UserRole.venue_admin,
         )
         db.add(admin)
@@ -26,7 +26,7 @@ try:
         player = User(
             google_id="mock-player-google-id",
             email="player@example.com",
-            name="Pat Player",
+            name="Lucas Benitez",
             role=UserRole.player,
         )
         db.add(player)
@@ -34,32 +34,33 @@ try:
 
     if not db.query(Venue).first():
         venue1 = Venue(
-            name="Downtown Futsal Arena",
-            address="123 Main St, Springfield",
-            phone="555-0100",
-            logo_url="https://placehold.co/200x200?text=DFA",
+            name="Complejo Costanera",
+            address="Costanera Sur 850, Concepción del Uruguay",
+            phone="03442-421100",
+            logo_url="https://picsum.photos/seed/complejo-costanera/200/200",
             admin_user_id=admin.id,
         )
         venue2 = Venue(
-            name="Riverside Sports Complex",
-            address="456 River Rd, Springfield",
-            phone="555-0200",
-            logo_url="https://placehold.co/200x200?text=RSC",
+            name="Club Estudiantes",
+            address="9 de Julio 780, Concepción del Uruguay",
+            phone="03442-425500",
+            logo_url="https://picsum.photos/seed/club-estudiantes/200/200",
             admin_user_id=admin.id,
         )
         db.add_all([venue1, venue2])
         db.flush()
 
         fields = [
-            Field(venue_id=venue1.id, name="Court A", size=FieldSize.five,
-                  image_url="https://placehold.co/600x400?text=Court+A"),
-            Field(venue_id=venue1.id, name="Court B", size=FieldSize.seven,
-                  image_url="https://placehold.co/600x400?text=Court+B"),
-            Field(venue_id=venue2.id, name="Main Pitch", size=FieldSize.eleven,
-                  image_url="https://placehold.co/600x400?text=Main+Pitch"),
-            Field(venue_id=venue2.id, name="Practice Field", size=FieldSize.five,
-                  image_url="https://placehold.co/600x400?text=Practice"),
-            Field(venue_id=venue2.id, name="Turf 7", size=FieldSize.seven),
+            Field(venue_id=venue1.id, name="Cancha 1", size=FieldSize.five,
+                  image_url="https://picsum.photos/seed/cancha-1/600/400"),
+            Field(venue_id=venue1.id, name="Cancha 2", size=FieldSize.seven,
+                  image_url="https://picsum.photos/seed/cancha-2/600/400"),
+            Field(venue_id=venue2.id, name="Cancha Principal", size=FieldSize.eleven,
+                  image_url="https://picsum.photos/seed/cancha-principal/600/400"),
+            Field(venue_id=venue2.id, name="Cancha Auxiliar", size=FieldSize.five,
+                  image_url="https://picsum.photos/seed/cancha-auxiliar/600/400"),
+            Field(venue_id=venue2.id, name="Cancha 7", size=FieldSize.seven,
+                  image_url="https://picsum.photos/seed/cancha-7/600/400"),
         ]
         db.add_all(fields)
         db.flush()

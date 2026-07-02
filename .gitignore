@@ -129,3 +129,6 @@ venv/
 .venv/
 
 *.ps1
+
+*client_secret*
+.vercel
