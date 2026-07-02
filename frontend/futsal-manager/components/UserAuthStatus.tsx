@@ -1,11 +1,13 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Tooltip from "./ui/Tooltip";
 import { Button } from "./ui/Button";
 
 export default function AuthStatus() {
   const { data: session, status } = useSession();
+  const t = useTranslations("nav");
 
   if (status === "loading") {
     return null;
@@ -19,19 +21,19 @@ export default function AuthStatus() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={userImage}
-            alt="User Avatar"
+            alt={t("avatarAlt")}
             className="w-8 h-8 rounded-full inline-block"
           />
         </Tooltip>
         <Button variant="ghost" size="sm" onClick={() => signOut({ callbackUrl: "/" })}>
-          Sign out
+          {t("signOut")}
         </Button>
       </div>
     );
   }
   return (
     <Button variant="outline" size="sm" onClick={() => signIn("google")}>
-      Sign in
+      {t("signIn")}
     </Button>
   );
 }

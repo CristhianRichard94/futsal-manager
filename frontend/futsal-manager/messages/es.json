@@ -1,0 +1,179 @@
+{
+  "app": {
+    "title": "Futsal Manager",
+    "description": "Gestiona tus partidos, equipos y reservas de futsal con facilidad."
+  },
+  "footer": {
+    "copyright": "© {year} Futsal Manager. Todos los derechos reservados.",
+    "language": "Idioma"
+  },
+  "nav": {
+    "venues": "Sedes",
+    "myBookings": "Mis Reservas",
+    "myVenues": "Mis Sedes",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "avatarAlt": "Avatar del usuario"
+  },
+  "home": {
+    "title": "Reserva tu cancha de futsal en segundos",
+    "subtitle": "Explora sedes, consulta la disponibilidad en tiempo real y reserva una cancha para tu próximo partido.",
+    "browseVenues": "Explorar Sedes",
+    "signInWithGoogle": "Iniciar sesión con Google",
+    "myBookings": "Mis Reservas",
+    "manageMyVenues": "Gestionar Mis Sedes"
+  },
+  "login": {
+    "signIn": "Iniciar sesión",
+    "description": "Inicia sesión con tu cuenta de Google para reservar canchas y gestionar tus reservas.",
+    "error": "No pudimos iniciar tu sesión. Inténtalo de nuevo.",
+    "redirecting": "Redirigiendo...",
+    "continueWithGoogle": "Continuar con Google"
+  },
+  "venues": {
+    "title": "Sedes",
+    "loadError": "No se pudieron cargar las sedes.",
+    "emptyTitle": "Aún no hay sedes",
+    "emptyDescription": "Vuelve pronto — se agregan sedes nuevas con regularidad."
+  },
+  "venueDetail": {
+    "loadError": "No se pudo cargar la sede.",
+    "notFound": "Esta sede no existe o fue eliminada.",
+    "emptyFieldsTitle": "Aún no hay canchas",
+    "emptyFieldsDescription": "Esta sede todavía no agregó canchas para reservar.",
+    "book": "Reservar"
+  },
+  "book": {
+    "title": "Reservar una cancha",
+    "field": "Cancha",
+    "selectField": "Selecciona una cancha",
+    "date": "Fecha",
+    "loadFieldsError": "No se pudieron cargar las canchas de esta sede.",
+    "loadAvailabilityError": "No se pudo cargar la disponibilidad para esta fecha.",
+    "utcNotice": "Los horarios se muestran en UTC.",
+    "summary": "Resumen de la reserva",
+    "venueLabel": "Sede: ",
+    "venueValue": "Sede #{id}",
+    "fieldLabel": "Cancha: ",
+    "dateLabel": "Fecha: ",
+    "timeLabel": "Horario: ",
+    "selectTimeSlot": "Selecciona un horario",
+    "confirming": "Confirmando...",
+    "confirmBooking": "Confirmar reserva",
+    "slotTakenError": "Ese horario acaba de ser reservado por alguien más. Por favor elige otro.",
+    "genericConfirmError": "Ocurrió un error al confirmar tu reserva. Inténtalo de nuevo.",
+    "confirmedTitle": "¡Reserva confirmada!",
+    "confirmedDetails": "{field} el {date} a las {time}",
+    "viewMyBookings": "Ver mis reservas",
+    "backToVenue": "Volver a la sede",
+    "noSelection": "—"
+  },
+  "myBookings": {
+    "title": "Mis Reservas",
+    "loadError": "No se pudieron cargar tus reservas.",
+    "emptyTitle": "No hay nada aquí",
+    "emptyDescription": "No hay reservas en esta categoría.",
+    "fieldLabel": "Cancha #{id}",
+    "upcoming": "Próximas ({count})",
+    "past": "Pasadas ({count})",
+    "cancelled": "Canceladas ({count})",
+    "cancel": "Cancelar",
+    "cancelDialogTitle": "¿Cancelar esta reserva?",
+    "cancelDialogDescription": "Esto liberará el horario para que otros puedan reservarlo. Esta acción no se puede deshacer.",
+    "keepBooking": "Mantener reserva",
+    "yesCancel": "Sí, cancelar"
+  },
+  "adminVenues": {
+    "title": "Mis Sedes",
+    "createVenue": "Crear Sede",
+    "createVenueDialogTitle": "Crear sede",
+    "venueNamePlaceholder": "Nombre de la sede",
+    "addressPlaceholder": "Dirección",
+    "phonePlaceholder": "Teléfono",
+    "logoUrlPlaceholder": "URL del logo (opcional)",
+    "creating": "Creando...",
+    "create": "Crear",
+    "createError": "No se pudo crear la sede. Verifica los campos e inténtalo de nuevo.",
+    "loadError": "No se pudieron cargar tus sedes.",
+    "emptyTitle": "Aún no hay sedes",
+    "emptyDescription": "Crea tu primera sede para empezar a gestionar canchas y reservas.",
+    "configure": "Configurar",
+    "bookings": "Reservas"
+  },
+  "adminConfig": {
+    "notFound": "Esta sede no existe.",
+    "loadError": "No se pudo cargar la configuración de la sede.",
+    "venueDetails": "Detalles de la sede",
+    "saving": "Guardando...",
+    "saveChanges": "Guardar cambios",
+    "saveVenueError": "No se pudieron guardar los cambios de la sede. Inténtalo de nuevo.",
+    "fields": "Canchas",
+    "addField": "Agregar cancha",
+    "editField": "Editar cancha",
+    "fieldNamePlaceholder": "Nombre de la cancha",
+    "sizePlaceholder": "Tamaño",
+    "imageUrlPlaceholder": "URL de la imagen (opcional)",
+    "save": "Guardar",
+    "saveFieldError": "No se pudo guardar la cancha. Inténtalo de nuevo.",
+    "emptyFieldsTitle": "Aún no hay canchas",
+    "emptyFieldsDescription": "Agrega una cancha para empezar a aceptar reservas.",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "deleteFieldDialogTitle": "¿Eliminar esta cancha?",
+    "deleteFieldDialogDescription": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "deleteFieldBlockedError": "Esta cancha tiene reservas activas. Cancélalas primero antes de eliminarla.",
+    "deleteFieldGenericError": "No se pudo eliminar la cancha. Inténtalo de nuevo.",
+    "sizeFive": "5 jugadores",
+    "sizeSeven": "7 jugadores",
+    "sizeEleven": "11 jugadores"
+  },
+  "adminBookings": {
+    "title": "Reservas de la Sede",
+    "loadError": "No se pudieron cargar las reservas.",
+    "field": "Cancha",
+    "allFields": "Todas las canchas",
+    "from": "Desde",
+    "to": "Hasta",
+    "emptyTitle": "No se encontraron reservas",
+    "emptyDescription": "Intenta ajustar los filtros.",
+    "player": "Jugador",
+    "fieldColumn": "Cancha",
+    "date": "Fecha",
+    "time": "Horario",
+    "status": "Estado",
+    "actions": "Acciones",
+    "fieldFallback": "Cancha #{id}",
+    "cancel": "Cancelar",
+    "cancelDialogTitle": "¿Cancelar esta reserva?",
+    "cancelDialogDescription": "Esto liberará el horario. Esta acción no se puede deshacer.",
+    "keepBooking": "Mantener reserva",
+    "yesCancel": "Sí, cancelar"
+  },
+  "common": {
+    "retry": "Reintentar"
+  },
+  "forbidden": {
+    "title": "Acceso denegado",
+    "description": "No tienes permiso para ver esta página. Si crees que esto es un error, contacta al dueño de la sede.",
+    "backToHome": "Volver al inicio"
+  },
+  "notFoundPage": {
+    "title": "No encontrado",
+    "defaultMessage": "La página que buscas no existe o fue movida.",
+    "backToHome": "Volver al inicio"
+  },
+  "sizeBadge": {
+    "five": "5 jugadores",
+    "seven": "7 jugadores",
+    "eleven": "11 jugadores"
+  },
+  "bookingStatus": {
+    "Upcoming": "Próxima",
+    "Past": "Pasada",
+    "Cancelled": "Cancelada"
+  },
+  "timeSlotGrid": {
+    "ariaLabel": "Horarios disponibles"
+  }
+}

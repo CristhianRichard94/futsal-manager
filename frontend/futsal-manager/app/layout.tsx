@@ -1,17 +1,23 @@
 import "./globals.css";
 
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import Providers from "./providers";
 import { authOptions } from "@/lib/authOptions";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Futsal Manager",
-  description: "Manage your futsal games, teams, and reservations with ease.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("app");
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -19,22 +25,23 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  const locale = await getLocale();
+  const messages = await getMessages();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
-        <Providers session={session}>
-          <div className="flex flex-col min-h-screen">
-            <Navigation session={session} />
-            <main className="flex-1 container mx-auto py-6 px-4">
-              {children}
-            </main>
-            <footer className="border-t py-4 text-center text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Futsal Manager. All rights
-              reserved.
-            </footer>
-          </div>
-        </Providers>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Providers session={session}>
+            <div className="flex flex-col min-h-screen">
+              <Navigation session={session} />
+              <main className="flex-1 container mx-auto py-6 px-4">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

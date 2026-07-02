@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { MapPin, Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -23,6 +24,7 @@ export default function VenueDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const t = useTranslations("venueDetail");
 
   const load = () => {
     setLoading(true);
@@ -52,12 +54,12 @@ export default function VenueDetailPage() {
   }, [params.id]);
 
   if (notFound) {
-    return <NotFoundPage message="This venue doesn't exist or was removed." />;
+    return <NotFoundPage message={t("notFound")} />;
   }
 
   return (
     <div className="space-y-6">
-      {error && <ErrorBanner message="Failed to load venue." onRetry={load} />}
+      {error && <ErrorBanner message={t("loadError")} onRetry={load} />}
 
       {loading && (
         <div className="space-y-6">
@@ -98,8 +100,8 @@ export default function VenueDetailPage() {
 
           {fields && fields.length === 0 && (
             <EmptyState
-              title="No fields yet"
-              description="This venue hasn't added any fields to book."
+              title={t("emptyFieldsTitle")}
+              description={t("emptyFieldsDescription")}
             />
           )}
 
@@ -127,7 +129,7 @@ export default function VenueDetailPage() {
                         router.push(`/venues/${venue.id}/book?field=${field.id}`)
                       }
                     >
-                      Book
+                      {t("book")}
                     </Button>
                   </CardFooter>
                 </Card>

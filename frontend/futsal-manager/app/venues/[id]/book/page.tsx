@@ -5,6 +5,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
 import { CalendarIcon, CheckCircle2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -53,6 +54,7 @@ function BookingContent() {
   const [confirming, setConfirming] = useState(false);
   const [confirmError, setConfirmError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const t = useTranslations("book");
 
   useEffect(() => {
     HttpService.getVenueFields(params.id)
@@ -102,9 +104,7 @@ function BookingContent() {
       const status = (err as { response?: { status?: number } })?.response
         ?.status;
       if (status === 409) {
-        setConfirmError(
-          "This slot was just booked by someone else. Please pick another time."
-        );
+        setConfirmError(t("slotTakenError"));
         setSelectedSlot(null);
         loadAvailability();
       } else if (status === 401) {
@@ -112,7 +112,7 @@ function BookingContent() {
           `/login?callbackUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`
         );
       } else {
-        setConfirmError("Something went wrong while confirming your booking. Please try again.");
+        setConfirmError(t("genericConfirmError"));
       }
     } finally {
       setConfirming(false);
@@ -130,17 +130,20 @@ function BookingContent() {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
         <CheckCircle2 className="h-16 w-16 text-primary" />
-        <h1 className="text-2xl font-bold">Booking confirmed!</h1>
+        <h1 className="text-2xl font-bold">{t("confirmedTitle")}</h1>
         <p className="text-muted-foreground">
-          {selectedField.name} on {format(date, "PPP")} at{" "}
-          {selectedSlot.label}
+          {t("confirmedDetails", {
+            field: selectedField.name,
+            date: format(date, "PPP"),
+            time: selectedSlot.label,
+          })}
         </p>
         <div className="flex gap-3">
           <Button asChild>
-            <a href="/me/bookings">View my bookings</a>
+            <a href="/me/bookings">{t("viewMyBookings")}</a>
           </Button>
           <Button variant="outline" asChild>
-            <a href={`/venues/${params.id}`}>Back to venue</a>
+            <a href={`/venues/${params.id}`}>{t("backToVenue")}</a>
           </Button>
         </div>
       </div>
@@ -150,7 +153,7 @@ function BookingContent() {
   if (fieldsError) {
     return (
       <ErrorBanner
-        message="Failed to load fields for this venue."
+        message={t("loadFieldsError")}
         onRetry={() => window.location.reload()}
       />
     );
@@ -168,17 +171,17 @@ function BookingContent() {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div className="space-y-6 lg:col-span-2">
-        <h1 className="text-2xl font-bold">Book a field</h1>
+        <h1 className="text-2xl font-bold">{t("title")}</h1>
 
         <div className="flex flex-wrap gap-4">
           <div className="min-w-[200px] flex-1">
-            <label className="mb-1 block text-sm font-medium">Field</label>
+            <label className="mb-1 block text-sm font-medium">{t("field")}</label>
             <Select
               value={selectedFieldId ?? undefined}
               onValueChange={(value) => setSelectedFieldId(value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a field" />
+                <SelectValue placeholder={t("selectField")} />
               </SelectTrigger>
               <SelectContent>
                 {fields.map((field) => (
@@ -191,7 +194,7 @@ function BookingContent() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium">Date</label>
+            <label className="mb-1 block text-sm font-medium">{t("date")}</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline">
@@ -221,7 +224,7 @@ function BookingContent() {
 
         {availabilityError && (
           <ErrorBanner
-            message="Failed to load availability for this date."
+            message={t("loadAvailabilityError")}
             onRetry={loadAvailability}
           />
         )}
@@ -236,7 +239,7 @@ function BookingContent() {
 
         {!availabilityLoading && !availabilityError && availability && (
           <p className="text-xs text-muted-foreground">
-            Time slots are shown in UTC.
+            {t("utcNotice")}
           </p>
         )}
 
@@ -253,27 +256,29 @@ function BookingContent() {
       <div className="lg:col-span-1">
         <Card>
           <CardHeader>
-            <CardTitle>Booking summary</CardTitle>
+            <CardTitle>{t("summary")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div>
-              <span className="text-muted-foreground">Venue: </span>
-              <span className="font-medium">Venue #{params.id}</span>
-            </div>
-            <div>
-              <span className="text-muted-foreground">Field: </span>
+              <span className="text-muted-foreground">{t("venueLabel")}</span>
               <span className="font-medium">
-                {selectedField?.name ?? "—"}
+                {t("venueValue", { id: params.id })}
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground">Date: </span>
+              <span className="text-muted-foreground">{t("fieldLabel")}</span>
+              <span className="font-medium">
+                {selectedField?.name ?? t("noSelection")}
+              </span>
+            </div>
+            <div>
+              <span className="text-muted-foreground">{t("dateLabel")}</span>
               <span className="font-medium">{format(date, "PPP")}</span>
             </div>
             <div>
-              <span className="text-muted-foreground">Time: </span>
+              <span className="text-muted-foreground">{t("timeLabel")}</span>
               <span className="font-medium">
-                {selectedSlot ? selectedSlot.label : "Select a time slot"}
+                {selectedSlot ? selectedSlot.label : t("selectTimeSlot")}
               </span>
             </div>
 
@@ -284,7 +289,7 @@ function BookingContent() {
               disabled={!selectedSlot || confirming}
               onClick={handleConfirm}
             >
-              {confirming ? "Confirming..." : "Confirm booking"}
+              {confirming ? t("confirming") : t("confirmBooking")}
             </Button>
           </CardContent>
         </Card>

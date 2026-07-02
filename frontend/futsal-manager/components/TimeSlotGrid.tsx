@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { cn } from '@/lib/utils';
 import { Availability } from '@/lib/types';
 
@@ -53,13 +55,14 @@ export default function TimeSlotGrid({
   selectedStart: Date | null;
   onSelect: (slot: TimeSlot) => void;
 }) {
+  const t = useTranslations('timeSlotGrid');
   const slots = buildTimeSlots(date);
   const now = Date.now();
 
   return (
     <div
       role="listbox"
-      aria-label="Available time slots"
+      aria-label={t('ariaLabel')}
       className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5"
     >
       {slots.map((slot) => {

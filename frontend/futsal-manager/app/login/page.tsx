@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -16,6 +17,7 @@ function LoginCard() {
   const callbackUrl = searchParams.get("callbackUrl") || "/";
   const authError = searchParams.get("error");
   const [loading, setLoading] = useState(false);
+  const t = useTranslations("login");
 
   useEffect(() => {
     if (status === "authenticated" && session) {
@@ -32,22 +34,17 @@ function LoginCard() {
     <div className="flex min-h-[60vh] items-center justify-center">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <CardTitle>Sign in</CardTitle>
-          <CardDescription>
-            Sign in with your Google account to book fields and manage
-            reservations.
-          </CardDescription>
+          <CardTitle>{t("signIn")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {authError && (
-            <ErrorBanner message="We couldn't sign you in. Please try again." />
-          )}
+          {authError && <ErrorBanner message={t("error")} />}
           <Button
             className="w-full"
             onClick={handleSignIn}
             disabled={loading || status === "loading"}
           >
-            {loading ? "Redirecting..." : "Continue with Google"}
+            {loading ? t("redirecting") : t("continueWithGoogle")}
           </Button>
         </CardContent>
       </Card>

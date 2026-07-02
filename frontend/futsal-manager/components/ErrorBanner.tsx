@@ -1,6 +1,7 @@
 'use client';
 
 import { AlertTriangle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/Button';
 
@@ -11,6 +12,8 @@ export default function ErrorBanner({
   message: string;
   onRetry?: () => void;
 }) {
+  const t = useTranslations('common');
+
   return (
     <div className="flex items-center justify-between gap-4 rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
       <div className="flex items-center gap-2">
@@ -19,7 +22,7 @@ export default function ErrorBanner({
       </div>
       {onRetry && (
         <Button variant="outline" size="sm" onClick={onRetry}>
-          Retry
+          {t('retry')}
         </Button>
       )}
     </div>

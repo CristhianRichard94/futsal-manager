@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
+import { useTranslations } from "next-intl";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -31,6 +32,7 @@ export default function MyBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [cancellingId, setCancellingId] = useState<number | null>(null);
+  const t = useTranslations("myBookings");
 
   const load = () => {
     setLoading(true);
@@ -71,7 +73,7 @@ export default function MyBookingsPage() {
 
   const renderList = (items: Reservation[], allowCancel: boolean) => {
     if (items.length === 0) {
-      return <EmptyState title="Nothing here" description="No bookings in this category." />;
+      return <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />;
     }
     return (
       <div className="space-y-3">
@@ -84,7 +86,9 @@ export default function MyBookingsPage() {
                   {format(new Date(r.start_time), "HH:mm")}–
                   {format(new Date(r.end_time), "HH:mm")}
                 </p>
-                <p className="text-sm text-muted-foreground">Field #{r.field_id}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("fieldLabel", { id: r.field_id })}
+                </p>
               </div>
               <div className="flex items-center gap-3">
                 <BookingStatusBadge status={getBookingDisplayStatus(r)} />
@@ -96,21 +100,20 @@ export default function MyBookingsPage() {
                         size="sm"
                         disabled={cancellingId === r.id}
                       >
-                        Cancel
+                        {t("cancel")}
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Cancel this booking?</AlertDialogTitle>
+                        <AlertDialogTitle>{t("cancelDialogTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This will free up the slot for others to book. This
-                          action cannot be undone.
+                          {t("cancelDialogDescription")}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Keep booking</AlertDialogCancel>
+                        <AlertDialogCancel>{t("keepBooking")}</AlertDialogCancel>
                         <AlertDialogAction onClick={() => handleCancel(r.id)}>
-                          Yes, cancel
+                          {t("yesCancel")}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
@@ -126,9 +129,9 @@ export default function MyBookingsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">My Bookings</h1>
+      <h1 className="text-3xl font-bold">{t("title")}</h1>
 
-      {error && <ErrorBanner message="Failed to load your bookings." onRetry={load} />}
+      {error && <ErrorBanner message={t("loadError")} onRetry={load} />}
 
       {loading && !error && (
         <div className="space-y-3">
@@ -142,11 +145,13 @@ export default function MyBookingsPage() {
         <Tabs defaultValue="upcoming">
           <TabsList>
             <TabsTrigger value="upcoming">
-              Upcoming ({grouped.Upcoming.length})
+              {t("upcoming", { count: grouped.Upcoming.length })}
             </TabsTrigger>
-            <TabsTrigger value="past">Past ({grouped.Past.length})</TabsTrigger>
+            <TabsTrigger value="past">
+              {t("past", { count: grouped.Past.length })}
+            </TabsTrigger>
             <TabsTrigger value="cancelled">
-              Cancelled ({grouped.Cancelled.length})
+              {t("cancelled", { count: grouped.Cancelled.length })}
             </TabsTrigger>
           </TabsList>
           <TabsContent value="upcoming">

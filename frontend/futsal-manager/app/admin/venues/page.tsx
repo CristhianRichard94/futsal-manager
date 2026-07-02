@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { MapPin, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -32,6 +33,7 @@ export default function AdminVenuesPage() {
   const [form, setForm] = useState({ name: "", address: "", phone: "", logo_url: "" });
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
+  const t = useTranslations("adminVenues");
 
   const load = () => {
     if (!session?.user?.id) return;
@@ -62,7 +64,7 @@ export default function AdminVenuesPage() {
       setForm({ name: "", address: "", phone: "", logo_url: "" });
       load();
     } catch {
-      setCreateError("Failed to create venue. Please check the fields and try again.");
+      setCreateError(t("createError"));
     } finally {
       setCreating(false);
     }
@@ -71,37 +73,37 @@ export default function AdminVenuesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">My Venues</h1>
+        <h1 className="text-3xl font-bold">{t("title")}</h1>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Create Venue
+              {t("createVenue")}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create venue</DialogTitle>
+              <DialogTitle>{t("createVenueDialogTitle")}</DialogTitle>
             </DialogHeader>
             <div className="space-y-3">
               <Input
-                placeholder="Venue name"
+                placeholder={t("venueNamePlaceholder")}
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
               <Input
-                placeholder="Address"
+                placeholder={t("addressPlaceholder")}
                 value={form.address}
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
               />
               <Input
-                placeholder="Phone"
+                placeholder={t("phonePlaceholder")}
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
               />
               <Input
                 type="url"
-                placeholder="Logo URL (optional)"
+                placeholder={t("logoUrlPlaceholder")}
                 value={form.logo_url}
                 onChange={(e) => setForm({ ...form, logo_url: e.target.value })}
               />
@@ -112,14 +114,14 @@ export default function AdminVenuesPage() {
                 onClick={handleCreate}
                 disabled={creating || !form.name || !form.address || !form.phone}
               >
-                {creating ? "Creating..." : "Create"}
+                {creating ? t("creating") : t("create")}
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
 
-      {error && <ErrorBanner message="Failed to load your venues." onRetry={load} />}
+      {error && <ErrorBanner message={t("loadError")} onRetry={load} />}
 
       {loading && !error && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -131,8 +133,8 @@ export default function AdminVenuesPage() {
 
       {!loading && !error && venues && venues.length === 0 && (
         <EmptyState
-          title="No venues yet"
-          description="Create your first venue to start managing fields and bookings."
+          title={t("emptyTitle")}
+          description={t("emptyDescription")}
         />
       )}
 
@@ -148,10 +150,10 @@ export default function AdminVenuesPage() {
                 <p className="text-sm text-muted-foreground">{venue.address}</p>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" asChild>
-                    <Link href={`/admin/venues/${venue.id}/config`}>Configure</Link>
+                    <Link href={`/admin/venues/${venue.id}/config`}>{t("configure")}</Link>
                   </Button>
                   <Button variant="outline" size="sm" asChild>
-                    <Link href={`/admin/venues/${venue.id}/bookings`}>Bookings</Link>
+                    <Link href={`/admin/venues/${venue.id}/bookings`}>{t("bookings")}</Link>
                   </Button>
                 </div>
               </CardContent>
