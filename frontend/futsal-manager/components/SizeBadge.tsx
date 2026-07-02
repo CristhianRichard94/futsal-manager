@@ -1,16 +1,21 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+
 import { Badge } from '@/components/ui/Badge';
 import { FieldSize } from '@/lib/types';
 
 const SIZE_CONFIG: Record<
   FieldSize,
-  { label: string; variant: 'secondary' | 'outline-primary' | 'default' }
+  { key: 'five' | 'seven' | 'eleven'; variant: 'secondary' | 'outline-primary' | 'default' }
 > = {
-  [FieldSize.Five]: { label: '5-a-side', variant: 'secondary' },
-  [FieldSize.Seven]: { label: '7-a-side', variant: 'outline-primary' },
-  [FieldSize.Eleven]: { label: '11-a-side', variant: 'default' },
+  [FieldSize.Five]: { key: 'five', variant: 'secondary' },
+  [FieldSize.Seven]: { key: 'seven', variant: 'outline-primary' },
+  [FieldSize.Eleven]: { key: 'eleven', variant: 'default' },
 };
 
 export default function SizeBadge({ size }: { size: FieldSize }) {
+  const t = useTranslations('sizeBadge');
   const config = SIZE_CONFIG[size];
-  return <Badge variant={config.variant}>{config.label}</Badge>;
+  return <Badge variant={config.variant}>{t(config.key)}</Badge>;
 }

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
+import { useTranslations } from "next-intl";
 
 import {
   Table,
@@ -56,6 +57,7 @@ export default function AdminVenueBookingsPage() {
   const [fieldFilter, setFieldFilter] = useState<string>("all");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const t = useTranslations("adminBookings");
 
   const load = () => {
     setLoading(true);
@@ -91,7 +93,7 @@ export default function AdminVenueBookingsPage() {
   }, [reservations, fieldFilter, fromDate, toDate]);
 
   const fieldName = (fieldId: number) =>
-    fields?.find((f) => f.id === fieldId)?.name ?? `Field #${fieldId}`;
+    fields?.find((f) => f.id === fieldId)?.name ?? t("fieldFallback", { id: fieldId });
 
   const handleCancel = async (id: number) => {
     setCancellingId(id);
@@ -109,9 +111,9 @@ export default function AdminVenueBookingsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Venue Bookings</h1>
+      <h1 className="text-3xl font-bold">{t("title")}</h1>
 
-      {error && <ErrorBanner message="Failed to load bookings." onRetry={load} />}
+      {error && <ErrorBanner message={t("loadError")} onRetry={load} />}
 
       {loading && !error && <Skeleton className="h-64 w-full" />}
 
@@ -119,13 +121,13 @@ export default function AdminVenueBookingsPage() {
         <>
           <div className="flex flex-wrap items-end gap-3">
             <div>
-              <label className="mb-1 block text-sm font-medium">Field</label>
+              <label className="mb-1 block text-sm font-medium">{t("field")}</label>
               <Select value={fieldFilter} onValueChange={setFieldFilter}>
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="All fields" />
+                  <SelectValue placeholder={t("allFields")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All fields</SelectItem>
+                  <SelectItem value="all">{t("allFields")}</SelectItem>
                   {fields?.map((f) => (
                     <SelectItem key={f.id} value={String(f.id)}>
                       {f.name}
@@ -135,17 +137,17 @@ export default function AdminVenueBookingsPage() {
               </Select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium">From</label>
+              <label className="mb-1 block text-sm font-medium">{t("from")}</label>
               <Input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium">To</label>
+              <label className="mb-1 block text-sm font-medium">{t("to")}</label>
               <Input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
             </div>
           </div>
 
           {filtered.length === 0 && (
-            <EmptyState title="No bookings found" description="Try adjusting your filters." />
+            <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
           )}
 
           {filtered.length > 0 && (
@@ -155,12 +157,12 @@ export default function AdminVenueBookingsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Player</TableHead>
-                      <TableHead>Field</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Time</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead>{t("player")}</TableHead>
+                      <TableHead>{t("fieldColumn")}</TableHead>
+                      <TableHead>{t("date")}</TableHead>
+                      <TableHead>{t("time")}</TableHead>
+                      <TableHead>{t("status")}</TableHead>
+                      <TableHead>{t("actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -190,20 +192,20 @@ export default function AdminVenueBookingsPage() {
                                     size="sm"
                                     disabled={cancellingId === r.id}
                                   >
-                                    Cancel
+                                    {t("cancel")}
                                   </Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                   <AlertDialogHeader>
-                                    <AlertDialogTitle>Cancel this booking?</AlertDialogTitle>
+                                    <AlertDialogTitle>{t("cancelDialogTitle")}</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                      This will free up the slot. This action cannot be undone.
+                                      {t("cancelDialogDescription")}
                                     </AlertDialogDescription>
                                   </AlertDialogHeader>
                                   <AlertDialogFooter>
-                                    <AlertDialogCancel>Keep booking</AlertDialogCancel>
+                                    <AlertDialogCancel>{t("keepBooking")}</AlertDialogCancel>
                                     <AlertDialogAction onClick={() => handleCancel(r.id)}>
-                                      Yes, cancel
+                                      {t("yesCancel")}
                                     </AlertDialogAction>
                                   </AlertDialogFooter>
                                 </AlertDialogContent>
@@ -245,20 +247,20 @@ export default function AdminVenueBookingsPage() {
                                 size="sm"
                                 disabled={cancellingId === r.id}
                               >
-                                Cancel
+                                {t("cancel")}
                               </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Cancel this booking?</AlertDialogTitle>
+                                <AlertDialogTitle>{t("cancelDialogTitle")}</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  This will free up the slot. This action cannot be undone.
+                                  {t("cancelDialogDescription")}
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                <AlertDialogCancel>Keep booking</AlertDialogCancel>
+                                <AlertDialogCancel>{t("keepBooking")}</AlertDialogCancel>
                                 <AlertDialogAction onClick={() => handleCancel(r.id)}>
-                                  Yes, cancel
+                                  {t("yesCancel")}
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>

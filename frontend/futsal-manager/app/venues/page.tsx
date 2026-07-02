@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MapPin, Phone } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -15,6 +16,7 @@ export default function VenuesPage() {
   const [venues, setVenues] = useState<Venue[] | null>(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations("venues");
 
   const load = () => {
     setLoading(true);
@@ -32,9 +34,9 @@ export default function VenuesPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Venues</h1>
+      <h1 className="text-3xl font-bold">{t("title")}</h1>
 
-      {error && <ErrorBanner message="Failed to load venues." onRetry={load} />}
+      {error && <ErrorBanner message={t("loadError")} onRetry={load} />}
 
       {loading && !error && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -46,8 +48,8 @@ export default function VenuesPage() {
 
       {!loading && !error && venues && venues.length === 0 && (
         <EmptyState
-          title="No venues yet"
-          description="Check back soon — new venues are added regularly."
+          title={t("emptyTitle")}
+          description={t("emptyDescription")}
         />
       )}
 

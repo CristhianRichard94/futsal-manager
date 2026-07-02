@@ -1,0 +1,179 @@
+{
+  "app": {
+    "title": "Futsal Manager",
+    "description": "Manage your futsal games, teams, and reservations with ease."
+  },
+  "footer": {
+    "copyright": "© {year} Futsal Manager. All rights reserved.",
+    "language": "Language"
+  },
+  "nav": {
+    "venues": "Venues",
+    "myBookings": "My Bookings",
+    "myVenues": "My Venues",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "avatarAlt": "User avatar"
+  },
+  "home": {
+    "title": "Book your futsal field in seconds",
+    "subtitle": "Browse venues, check real-time availability and reserve a field for your next match.",
+    "browseVenues": "Browse Venues",
+    "signInWithGoogle": "Sign in with Google",
+    "myBookings": "My Bookings",
+    "manageMyVenues": "Manage My Venues"
+  },
+  "login": {
+    "signIn": "Sign in",
+    "description": "Sign in with your Google account to book fields and manage reservations.",
+    "error": "We couldn't sign you in. Please try again.",
+    "redirecting": "Redirecting...",
+    "continueWithGoogle": "Continue with Google"
+  },
+  "venues": {
+    "title": "Venues",
+    "loadError": "Failed to load venues.",
+    "emptyTitle": "No venues yet",
+    "emptyDescription": "Check back soon — new venues are added regularly."
+  },
+  "venueDetail": {
+    "loadError": "Failed to load venue.",
+    "notFound": "This venue doesn't exist or was removed.",
+    "emptyFieldsTitle": "No fields yet",
+    "emptyFieldsDescription": "This venue hasn't added any fields to book.",
+    "book": "Book"
+  },
+  "book": {
+    "title": "Book a field",
+    "field": "Field",
+    "selectField": "Select a field",
+    "date": "Date",
+    "loadFieldsError": "Failed to load fields for this venue.",
+    "loadAvailabilityError": "Failed to load availability for this date.",
+    "utcNotice": "Time slots are shown in UTC.",
+    "summary": "Booking summary",
+    "venueLabel": "Venue: ",
+    "venueValue": "Venue #{id}",
+    "fieldLabel": "Field: ",
+    "dateLabel": "Date: ",
+    "timeLabel": "Time: ",
+    "selectTimeSlot": "Select a time slot",
+    "confirming": "Confirming...",
+    "confirmBooking": "Confirm booking",
+    "slotTakenError": "This slot was just booked by someone else. Please pick another time.",
+    "genericConfirmError": "Something went wrong while confirming your booking. Please try again.",
+    "confirmedTitle": "Booking confirmed!",
+    "confirmedDetails": "{field} on {date} at {time}",
+    "viewMyBookings": "View my bookings",
+    "backToVenue": "Back to venue",
+    "noSelection": "—"
+  },
+  "myBookings": {
+    "title": "My Bookings",
+    "loadError": "Failed to load your bookings.",
+    "emptyTitle": "Nothing here",
+    "emptyDescription": "No bookings in this category.",
+    "fieldLabel": "Field #{id}",
+    "upcoming": "Upcoming ({count})",
+    "past": "Past ({count})",
+    "cancelled": "Cancelled ({count})",
+    "cancel": "Cancel",
+    "cancelDialogTitle": "Cancel this booking?",
+    "cancelDialogDescription": "This will free up the slot for others to book. This action cannot be undone.",
+    "keepBooking": "Keep booking",
+    "yesCancel": "Yes, cancel"
+  },
+  "adminVenues": {
+    "title": "My Venues",
+    "createVenue": "Create Venue",
+    "createVenueDialogTitle": "Create venue",
+    "venueNamePlaceholder": "Venue name",
+    "addressPlaceholder": "Address",
+    "phonePlaceholder": "Phone",
+    "logoUrlPlaceholder": "Logo URL (optional)",
+    "creating": "Creating...",
+    "create": "Create",
+    "createError": "Failed to create venue. Please check the fields and try again.",
+    "loadError": "Failed to load your venues.",
+    "emptyTitle": "No venues yet",
+    "emptyDescription": "Create your first venue to start managing fields and bookings.",
+    "configure": "Configure",
+    "bookings": "Bookings"
+  },
+  "adminConfig": {
+    "notFound": "This venue doesn't exist.",
+    "loadError": "Failed to load venue configuration.",
+    "venueDetails": "Venue details",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "saveVenueError": "Failed to save venue changes. Please try again.",
+    "fields": "Fields",
+    "addField": "Add field",
+    "editField": "Edit field",
+    "fieldNamePlaceholder": "Field name",
+    "sizePlaceholder": "Size",
+    "imageUrlPlaceholder": "Image URL (optional)",
+    "save": "Save",
+    "saveFieldError": "Failed to save field. Please try again.",
+    "emptyFieldsTitle": "No fields yet",
+    "emptyFieldsDescription": "Add a field to start accepting bookings.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteFieldDialogTitle": "Delete this field?",
+    "deleteFieldDialogDescription": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "deleteFieldBlockedError": "This field has active reservations. Cancel them first before deleting.",
+    "deleteFieldGenericError": "Failed to delete field. Please try again.",
+    "sizeFive": "5-a-side",
+    "sizeSeven": "7-a-side",
+    "sizeEleven": "11-a-side"
+  },
+  "adminBookings": {
+    "title": "Venue Bookings",
+    "loadError": "Failed to load bookings.",
+    "field": "Field",
+    "allFields": "All fields",
+    "from": "From",
+    "to": "To",
+    "emptyTitle": "No bookings found",
+    "emptyDescription": "Try adjusting your filters.",
+    "player": "Player",
+    "fieldColumn": "Field",
+    "date": "Date",
+    "time": "Time",
+    "status": "Status",
+    "actions": "Actions",
+    "fieldFallback": "Field #{id}",
+    "cancel": "Cancel",
+    "cancelDialogTitle": "Cancel this booking?",
+    "cancelDialogDescription": "This will free up the slot. This action cannot be undone.",
+    "keepBooking": "Keep booking",
+    "yesCancel": "Yes, cancel"
+  },
+  "common": {
+    "retry": "Retry"
+  },
+  "forbidden": {
+    "title": "Access denied",
+    "description": "You don't have permission to view this page. If you think this is a mistake, contact the venue owner.",
+    "backToHome": "Back to home"
+  },
+  "notFoundPage": {
+    "title": "Not found",
+    "defaultMessage": "The page you're looking for doesn't exist or was moved.",
+    "backToHome": "Back to home"
+  },
+  "sizeBadge": {
+    "five": "5-a-side",
+    "seven": "7-a-side",
+    "eleven": "11-a-side"
+  },
+  "bookingStatus": {
+    "Upcoming": "Upcoming",
+    "Past": "Past",
+    "Cancelled": "Cancelled"
+  },
+  "timeSlotGrid": {
+    "ariaLabel": "Available time slots"
+  }
+}

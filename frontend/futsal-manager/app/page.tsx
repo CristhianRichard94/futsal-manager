@@ -3,6 +3,7 @@
 import { useSession, signIn } from "next-auth/react";
 import Link from "next/link";
 import { Calendar, MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/Button";
 import { UserRole } from "@/lib/types";
@@ -10,16 +11,16 @@ import { UserRole } from "@/lib/types";
 export default function Home() {
   const { data: session, status } = useSession();
   const isAdmin = session?.user?.role === UserRole.VenueAdmin;
+  const t = useTranslations("home");
 
   return (
     <div className="flex flex-col items-center justify-center gap-8 py-16 text-center">
       <div className="space-y-4">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Book your futsal field in seconds
+          {t("title")}
         </h1>
         <p className="mx-auto max-w-xl text-muted-foreground">
-          Browse venues, check real-time availability and reserve a field for
-          your next match.
+          {t("subtitle")}
         </p>
       </div>
 
@@ -27,13 +28,13 @@ export default function Home() {
         <Button size="lg" asChild>
           <Link href="/venues">
             <MapPin className="mr-2 h-4 w-4" />
-            Browse Venues
+            {t("browseVenues")}
           </Link>
         </Button>
 
         {status !== "loading" && !session && (
           <Button size="lg" variant="outline" onClick={() => signIn("google")}>
-            Sign in with Google
+            {t("signInWithGoogle")}
           </Button>
         )}
 
@@ -41,14 +42,14 @@ export default function Home() {
           <Button size="lg" variant="outline" asChild>
             <Link href="/me/bookings">
               <Calendar className="mr-2 h-4 w-4" />
-              My Bookings
+              {t("myBookings")}
             </Link>
           </Button>
         )}
 
         {isAdmin && (
           <Button size="lg" variant="secondary" asChild>
-            <Link href="/admin/venues">Manage My Venues</Link>
+            <Link href="/admin/venues">{t("manageMyVenues")}</Link>
           </Button>
         )}
       </div>

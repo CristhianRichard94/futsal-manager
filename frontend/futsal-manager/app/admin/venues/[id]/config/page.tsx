@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -42,14 +43,15 @@ import NotFoundPage from "@/components/NotFoundPage";
 import { HttpService } from "@/service/HttpService";
 import { Field, FieldSize, Venue } from "@/lib/types";
 
-const SIZE_OPTIONS: { value: FieldSize; label: string }[] = [
-  { value: FieldSize.Five, label: "5-a-side" },
-  { value: FieldSize.Seven, label: "7-a-side" },
-  { value: FieldSize.Eleven, label: "11-a-side" },
-];
-
 export default function VenueConfigPage() {
   const params = useParams<{ id: string }>();
+  const t = useTranslations("adminConfig");
+
+  const SIZE_OPTIONS: { value: FieldSize; label: string }[] = [
+    { value: FieldSize.Five, label: t("sizeFive") },
+    { value: FieldSize.Seven, label: t("sizeSeven") },
+    { value: FieldSize.Eleven, label: t("sizeEleven") },
+  ];
 
   const [venue, setVenue] = useState<Venue | null>(null);
   const [fields, setFields] = useState<Field[] | null>(null);
@@ -119,7 +121,7 @@ export default function VenueConfigPage() {
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response?.status;
       if (status === 403) setForbidden(true);
-      else setVenueSaveError("Failed to save venue changes. Please try again.");
+      else setVenueSaveError(t("saveVenueError"));
     } finally {
       setSavingVenue(false);
     }
@@ -160,7 +162,7 @@ export default function VenueConfigPage() {
       setFieldDialogOpen(false);
       load();
     } catch {
-      setFieldSaveError("Failed to save field. Please try again.");
+      setFieldSaveError(t("saveFieldError"));
     } finally {
       setSavingField(false);
     }
@@ -175,24 +177,23 @@ export default function VenueConfigPage() {
       if (status === 409) {
         setDeleteBlockedMessage((prev) => ({
           ...prev,
-          [field.id]:
-            "This field has active reservations. Cancel them first before deleting.",
+          [field.id]: t("deleteFieldBlockedError"),
         }));
       } else {
         setDeleteBlockedMessage((prev) => ({
           ...prev,
-          [field.id]: "Failed to delete field. Please try again.",
+          [field.id]: t("deleteFieldGenericError"),
         }));
       }
     }
   };
 
-  if (notFound) return <NotFoundPage message="This venue doesn't exist." />;
+  if (notFound) return <NotFoundPage message={t("notFound")} />;
   if (forbidden) return <ForbiddenPage />;
 
   return (
     <div className="space-y-8">
-      {error && <ErrorBanner message="Failed to load venue configuration." onRetry={load} />}
+      {error && <ErrorBanner message={t("loadError")} onRetry={load} />}
 
       {loading && (
         <div className="space-y-4">
@@ -205,27 +206,27 @@ export default function VenueConfigPage() {
         <>
           <Card>
             <CardHeader>
-              <CardTitle>Venue details</CardTitle>
+              <CardTitle>{t("venueDetails")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Input
-                placeholder="Venue name"
+                placeholder={t("venueNamePlaceholder")}
                 value={venueForm.name}
                 onChange={(e) => setVenueForm({ ...venueForm, name: e.target.value })}
               />
               <Input
-                placeholder="Address"
+                placeholder={t("addressPlaceholder")}
                 value={venueForm.address}
                 onChange={(e) => setVenueForm({ ...venueForm, address: e.target.value })}
               />
               <Input
-                placeholder="Phone"
+                placeholder={t("phonePlaceholder")}
                 value={venueForm.phone}
                 onChange={(e) => setVenueForm({ ...venueForm, phone: e.target.value })}
               />
               <Input
                 type="url"
-                placeholder="Logo URL (optional)"
+                placeholder={t("logoUrlPlaceholder")}
                 value={venueForm.logo_url}
                 onChange={(e) => setVenueForm({ ...venueForm, logo_url: e.target.value })}
               />
@@ -234,28 +235,28 @@ export default function VenueConfigPage() {
                 onClick={handleSaveVenue}
                 disabled={savingVenue || !venueForm.name || !venueForm.address || !venueForm.phone}
               >
-                {savingVenue ? "Saving..." : "Save changes"}
+                {savingVenue ? t("saving") : t("saveChanges")}
               </Button>
             </CardContent>
           </Card>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Fields</h2>
+              <h2 className="text-xl font-semibold">{t("fields")}</h2>
               <Dialog open={fieldDialogOpen} onOpenChange={setFieldDialogOpen}>
                 <DialogTrigger asChild>
                   <Button onClick={openCreateField}>
                     <Plus className="mr-2 h-4 w-4" />
-                    Add field
+                    {t("addField")}
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>{editingField ? "Edit field" : "Add field"}</DialogTitle>
+                    <DialogTitle>{editingField ? t("editField") : t("addField")}</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-3">
                     <Input
-                      placeholder="Field name"
+                      placeholder={t("fieldNamePlaceholder")}
                       value={fieldForm.name}
                       onChange={(e) => setFieldForm({ ...fieldForm, name: e.target.value })}
                     />
@@ -266,7 +267,7 @@ export default function VenueConfigPage() {
                       }
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Size" />
+                        <SelectValue placeholder={t("sizePlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {SIZE_OPTIONS.map((opt) => (
@@ -278,7 +279,7 @@ export default function VenueConfigPage() {
                     </Select>
                     <Input
                       type="url"
-                      placeholder="Image URL (optional)"
+                      placeholder={t("imageUrlPlaceholder")}
                       value={fieldForm.image_url}
                       onChange={(e) => setFieldForm({ ...fieldForm, image_url: e.target.value })}
                     />
@@ -286,7 +287,7 @@ export default function VenueConfigPage() {
                   </div>
                   <DialogFooter>
                     <Button onClick={handleSaveField} disabled={savingField || !fieldForm.name}>
-                      {savingField ? "Saving..." : "Save"}
+                      {savingField ? t("saving") : t("save")}
                     </Button>
                   </DialogFooter>
                 </DialogContent>
@@ -294,7 +295,7 @@ export default function VenueConfigPage() {
             </div>
 
             {fields && fields.length === 0 && (
-              <EmptyState title="No fields yet" description="Add a field to start accepting bookings." />
+              <EmptyState title={t("emptyFieldsTitle")} description={t("emptyFieldsDescription")} />
             )}
 
             {fields && fields.length > 0 && (
@@ -308,26 +309,26 @@ export default function VenueConfigPage() {
                     <CardContent className="space-y-2">
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm" onClick={() => openEditField(field)}>
-                          Edit
+                          {t("edit")}
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button variant="destructive" size="sm">
                               <Trash2 className="mr-1 h-4 w-4" />
-                              Delete
+                              {t("delete")}
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Delete this field?</AlertDialogTitle>
+                              <AlertDialogTitle>{t("deleteFieldDialogTitle")}</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This action cannot be undone.
+                                {t("deleteFieldDialogDescription")}
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                               <AlertDialogAction onClick={() => handleDeleteField(field)}>
-                                Delete
+                                {t("delete")}
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>

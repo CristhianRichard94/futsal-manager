@@ -1,3 +1,7 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+
 import { Badge } from '@/components/ui/Badge';
 import { Reservation, ReservationStatus } from '@/lib/types';
 
@@ -16,11 +20,12 @@ export default function BookingStatusBadge({
 }: {
   status: BookingDisplayStatus;
 }) {
+  const t = useTranslations('bookingStatus');
   const variant =
     status === 'Upcoming'
       ? 'default'
       : status === 'Cancelled'
         ? 'destructive'
         : 'secondary';
-  return <Badge variant={variant}>{status}</Badge>;
+  return <Badge variant={variant}>{t(status)}</Badge>;
 }
