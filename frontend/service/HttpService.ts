@@ -20,22 +20,47 @@ export const apiClient = axios.create({
   baseURL: API_BASE_URL,
 });
 
+// Token is minted with a 5min expiry (see app/api/token/route.ts). Cache it
+// client-side and only refetch once it's close to expiring, instead of
+// hitting /api/token before every single outgoing request.
+let cachedToken: { token: string; expiresAt: number } | null = null;
+let inFlightTokenFetch: Promise<string | null> | null = null;
+const TOKEN_TTL_MS = 5 * 60 * 1000;
+const TOKEN_REFRESH_MARGIN_MS = 30 * 1000;
+
+async function getAuthToken(): Promise<string | null> {
+  if (cachedToken && cachedToken.expiresAt > Date.now()) {
+    return cachedToken.token;
+  }
+  if (!inFlightTokenFetch) {
+    inFlightTokenFetch = (async () => {
+      try {
+        const res = await fetch("/api/token");
+        if (!res.ok) return null;
+        const { token } = await res.json();
+        if (token) {
+          cachedToken = { token, expiresAt: Date.now() + TOKEN_TTL_MS - TOKEN_REFRESH_MARGIN_MS };
+        }
+        return token ?? null;
+      } catch {
+        return null;
+      } finally {
+        inFlightTokenFetch = null;
+      }
+    })();
+  }
+  return inFlightTokenFetch;
+}
+
 // Attaches the short-lived backend JWT (minted by /api/token) to every
 // outgoing request, when running in the browser and a NextAuth session
 // exists. Server components/route handlers that need auth should call
 // HttpService methods with an explicit token via the `token` param instead.
 apiClient.interceptors.request.use(async (config) => {
   if (typeof window !== "undefined") {
-    try {
-      const res = await fetch("/api/token");
-      if (res.ok) {
-        const { token } = await res.json();
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-      }
-    } catch {
-      // No session / not authenticated — request proceeds unauthenticated.
+    const token = await getAuthToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
   }
   return config;
