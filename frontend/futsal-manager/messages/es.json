@@ -1,10 +1,10 @@
 {
   "app": {
-    "title": "Futsal Manager",
+    "title": "Canchitapp",
     "description": "Gestiona tus partidos, equipos y reservas de futsal con facilidad."
   },
   "footer": {
-    "copyright": "© {year} Futsal Manager. Todos los derechos reservados.",
+    "copyright": "© {year} Canchitapp. Todos los derechos reservados.",
     "language": "Idioma"
   },
   "nav": {

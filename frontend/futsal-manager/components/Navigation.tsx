@@ -18,7 +18,7 @@ export default function Navigation({ session }: { session: Session | null }) {
           href="/"
           className="text-2xl font-bold flex items-center space-x-2"
         >
-          <span>Futsal Manager</span>
+          <span>Canchitapp</span>
         </Link>
         <div className="flex items-center space-x-4">
           <Button variant="ghost" asChild>
