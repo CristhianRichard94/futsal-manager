@@ -114,7 +114,7 @@ class Reservation(Base):
         # this constraint is the actual source of truth.
         ExcludeConstraint(
             ("field_id", "="),
-            (text("tsrange(start_time, end_time)"), "&&"),
+            (text("tstzrange(start_time, end_time)"), "&&"),
             where=text("status = 'confirmed'"),
             name="reservations_no_overlap",
         ),
