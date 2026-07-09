@@ -58,7 +58,6 @@
     "date": "Date",
     "loadFieldsError": "Failed to load fields for this venue.",
     "loadAvailabilityError": "Failed to load availability for this date.",
-    "utcNotice": "Time slots are shown in UTC.",
     "summary": "Booking summary",
     "venueLabel": "Venue: ",
     "venueValue": "Venue #{id}",

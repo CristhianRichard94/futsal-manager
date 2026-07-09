@@ -1,6 +1,6 @@
 # Canchitapp
 
-Plataforma de reserva de canchas de futbol sala: los jugadores reservan canchas, los dueños de canchas gestionan las reservas y (opcionalmente) cobran una seña vía Mercado Pago.
+Plataforma ade reserva de canchas de futbol sala: los jugadores reservan canchas, los dueños de canchas gestionan las reservas y (opcionalmente) cobran una seña vía Mercado Pago.
 
 ## Stack
 

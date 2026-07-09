@@ -4,6 +4,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import { CalendarIcon, CheckCircle2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -140,7 +141,7 @@ function BookingContent() {
         <p className="text-muted-foreground">
           {t("confirmedDetails", {
             field: selectedField.name,
-            date: format(date, "PPP"),
+            date: format(date, "PPP", { locale: es }),
             time: selectedSlot.label,
           })}
         </p>
@@ -205,7 +206,7 @@ function BookingContent() {
               <PopoverTrigger asChild>
                 <Button variant="outline">
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {format(date, "PPP")}
+                  {format(date, "PPP", { locale: es })}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -254,12 +255,6 @@ function BookingContent() {
         )}
 
         {!availabilityLoading && !availabilityError && availability && (
-          <p className="text-xs text-muted-foreground">
-            {t("utcNotice")}
-          </p>
-        )}
-
-        {!availabilityLoading && !availabilityError && availability && (
           <TimeSlotGrid
             date={date}
             bookedRanges={availability}
@@ -297,7 +292,7 @@ function BookingContent() {
             </div>
             <div>
               <span className="text-muted-foreground">{t("dateLabel")}</span>
-              <span className="font-medium">{format(date, "PPP")}</span>
+              <span className="font-medium">{format(date, "PPP", { locale: es })}</span>
             </div>
             <div>
               <span className="text-muted-foreground">{t("timeLabel")}</span>

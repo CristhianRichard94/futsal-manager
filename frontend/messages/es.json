@@ -58,7 +58,6 @@
     "date": "Fecha",
     "loadFieldsError": "No se pudieron cargar las canchas de esta sede.",
     "loadAvailabilityError": "No se pudo cargar la disponibilidad para esta fecha.",
-    "utcNotice": "Los horarios se muestran en UTC.",
     "summary": "Resumen de la reserva",
     "venueLabel": "Sede: ",
     "venueValue": "Sede #{id}",

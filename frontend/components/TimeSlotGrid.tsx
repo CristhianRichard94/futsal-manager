@@ -30,7 +30,7 @@ export function buildTimeSlots(date: Date): TimeSlot[] {
     slots.push({
       start,
       end,
-      label: `${String(hour).padStart(2, '0')}:00 UTC`,
+      label: `${String(hour).padStart(2, '0')}:00`,
     });
   }
   return slots;
