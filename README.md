@@ -95,3 +95,33 @@ Backend → http://localhost:8000, frontend → http://localhost:3000.
 - Mercado Pago webhooks need a public URL reachable from MP — use `ngrok` for local testing.
 - Agent configs and workflow: `AGENTS.md`, `CLAUDE.md`.
 - Product/business notes: `docs/`.
+
+## API routes
+
+```
+GET/POST/PUT/DELETE  /venues, /venues/{id}
+GET/POST             /venues/{id}/fields
+GET/PUT/DELETE       /fields/{id}
+GET                  /fields/{id}/availability
+GET/POST/DELETE      /reservations, /reservations/{id}
+POST                 /payments/webhook   (Mercado Pago)
+POST                 /auth/sync          (internal, secret-protected)
+GET                  /health
+```
+
+## Testing
+
+```
+cd backend && pytest
+cd frontend && npm test          # vitest
+```
+
+## What I'd improve
+
+- Add Alembic migrations instead of `create_all`
+- Owner dashboard for managing multiple venues (see `docs/TODO.md`)
+- Booking reminders / recurring reservations
+
+## License
+
+No license file present.
